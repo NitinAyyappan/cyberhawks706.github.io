@@ -21,3 +21,74 @@ section {
   max-width: 900px;
   margin: auto;
 }
+
+header {
+  background-color: #020617;
+  padding: 1rem 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  background-color: #020617;
+  color: #e5e7eb;
+  padding: 1rem 0;
+  margin-top: 3rem;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  text-align: center;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.hero img.background {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7); /* darkens photo for text contrast */
+}
+
+.logo-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+}
+
+.logo-container img {
+  max-width: 200px;
+  margin-bottom: 1rem;
+}
+
+.logo-container h1 {
+  font-size: 3rem;
+  margin: 0.5rem 0;
+}
+
+.logo-container p {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
