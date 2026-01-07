@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Cyberhawks 706 team resources: guides, presentations, programming materials, and sponsor information.">
+  <title>Resources | Cyberhawks 706</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/calendar.css">
+  <link rel="stylesheet" href="/css/jumpstart.css">
+  <link rel="stylesheet" href="/css/topoBackground.css">
+  <link rel="icon" href="/images/favicon.webp" type="image/webp">
+  <script src="/scripts/include.js" defer></script>
+  <link rel="canonical" href="https://www.cyberhawks706.org/calendar/">
+</head>
+
+<body>
+  <canvas id="res-canvas"></canvas>
+  <div class="bg-overlay"></div>
+
+  <div class="site-content">
+    <div data-include="/partials/header.html"></div>
+
+    <main class="notion-container">
+      <h1 class="notion-page-title">Resources</h1>
+      <p class="notion-page-subtitle">Cyberhawks 706 Team Resources & Guides</p>
+
+      <section class="notion-card" id="calendar">
+        <h2>Calendar</h2>
+        <p>Our major events and meeting schedules.</p>
+        <div class="calendar-container">
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=robotics%40arrowheadschools.org&ctz=America%2FChicago"
+            style="border: 0" width="1000" height="800" frameborder="0" scrolling="no" loading="lazy"
+            title="Team Calendar">
+          </iframe>
+        </div>
+      </section>
+
+      <!-- Event Cards Section -->
+      <section class="event-cards-section">
+        <div class="event-cards-grid">
+          <div class="event-card">
+            <img src="/assets/images/team-photo.jpg" alt="Event 1">
+            <div class="event-card-overlay"></div>
+            <div class="event-card-text">
+              <h3>Build Season</h3>
+              <p>January - March</p>
+            </div>
+          </div>
+
+          <div class="event-card">
+            <img src="/assets/images/team-photo.jpg" alt="Event 2">
+            <div class="event-card-overlay"></div>
+            <div class="event-card-text">
+              <h3>Regional Events</h3>
+              <p>March - April</p>
+            </div>
+          </div>
+
+          <div class="event-card">
+            <img src="/assets/images/FIRST_State_Championships.jpg" alt="State">
+            <div class="event-card-overlay"></div>
+            <div class="event-card-text">
+              <h3>FRC Wisconsin State Championship</h3>
+              <p>April 17th-19th</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-card-wide">
+          <img src="/assets/images/team-photo.jpg" alt="Worlds">
+          <div class="event-card-wide-overlay"></div>
+          <div class="event-card-wide-text">
+            <h3>FIRST World Championships</h3>
+            <p>April 29th - May 2nd</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <div data-include="/partials/footer.html"></div>
+  </div>
+
+  <script type="module">
+    import { initTopoBackground } from "/scripts/topoBackground.js";
+    initTopoBackground();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - Cyberhawks FRC 706</title>
+    <link rel="stylesheet" href="/css/topoBackground.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/about.css">
+    <link rel="icon" href="/assets/images/favicon.webp" type="image/webp">
+    <script src="/scripts/include.js" defer></script>
+    <script src="/scripts/side-nav.js" defer></script>
+    <link rel="canonical" href="https://www.cyberhawks706.com/about/">
+</head>
+
+<body>
+
+    <canvas id="res-canvas"></canvas>
+    <div class="bg-overlay"></div>
+
+    <div class="site-content">
+        <!-- Header -->
+        <div data-include="/partials/header.html"></div>
+
+        <!-- Side Navigation -->
+        <!-- <div class="side-nav" id="sideNav">
+    <ul class="side-nav-list">
+      <li><a href="#mission" class="side-nav-link">Mission</a></li>
+      <li><a href="#history" class="side-nav-link">History</a></li>
+      <li><a href="#subteams" class="side-nav-link">Sub-teams</a></li>
+    </ul>
+  </div> -->
+
+        <!-- Site Content -->
+        <div class="site-content">
+
+            <!-- Mission Section (full-screen statement + image) -->
+
+            <section class="mission-section" id="mission">
+                <div class="mission-container">
+                    <!-- TODO: REPLACE WITH TEAM LOGO AFTER 25 YEARS IS OVER -->
+                    <img src="/assets/images/25Years.svg" alt="Team Image" class="mission-image">
+
+                    <div class="mission-statement" id="missionStatement">
+                        We build <span class="mission-highlight">leaders</span>,
+                        inspire <span class="mission-highlight">innovation</span>,
+                        and empower students through
+                        <span class="mission-highlight">FIRST®</span>.
+                    </div>
+
+                </div>
+            </section>
+
+            <main class="notion-container">
+                <h1 class="notion-page-title">About</h1>
+                <p class="notion-page-subtitle">Arrowhead High School Robotics Team</p>
+
+                <!-- History Section -->
+                <section class="notion-card" id="history">
+                    <h2>Team History</h2>
+                    <p>
+                        The Arrowhead Robotics Team was founded in 2001, originally under the name APE Robotics
+                        (Arrowhead Price Engineering Robotics). In 2003, the team changed its name to the Cyberhawks.
+                    </p>
+                    <p>
+                        Over the years, the team has achieved multiple awards, including appearances at regional
+                        and world championships, the Motorola Quality Award, Xerox Creativity Award, General Motors
+                        Industrial Design Award, Rockwell Automation Innovation in Control Award, and the FIRST Dean’s List
+                        Finalist Award.
+                    </p>
+                    <p>
+                        Beyond awards, the team actively engages with the community, promoting STEM education and
+                        leadership.
+                    </p>
+                </section>
+
+
+            </main>
+
+
+            <section class="subteam-section" id="subteams">
+                <h2>Sub-teams</h2>
+                <p class="subteam-intro">
+                    Our team is organized into three main sub-teams: Build, Programming, and Business.
+                </p>
+                <!-- Sub-teams Section -->
+                <div class="subteam-grid">
+
+                    <article class="subteam-panel">
+                        <img src="/assets/images/team-photo.jpg" alt="Build Team">
+                        <h3>Build Team</h3>
+                        <p>
+                            Focused on design and construction of the competition robot. Members learn CAD and
+                            Inventor for professional-level drawings and gain hands-on experience operating shop tools.
+                        </p>
+                    </article>
+
+                    <article class="subteam-panel">
+                        <img src="/assets/images/team-photo.jpg" alt="Programming Team">
+                        <h3>Programming Team</h3>
+                        <p>
+                            Members write Java code for the robot and handle wiring. During pre-season, they learn
+                            coding basics; during build season, they gain hands-on experience coding and system integration.
+                        </p>
+                    </article>
+
+                    <article class="subteam-panel">
+                        <img src="/assets/images/team-photo.jpg" alt="Business Team">
+                        <h3>Business Team</h3>
+                        <p>
+                            Manages finances, sponsors, and documentation. Members track income and expenses,
+                            develop communication skills, and handle award submissions like the Impact Award.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <div data-include="/partials/footer.html"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initTopoBackground } from "/scripts/topoBackground.js";
+        initTopoBackground();
+    </script>
+
+
+    <script>
+        // Reveal subcards on scroll
+        const revealSubcards = () => {
+            const subcards = document.querySelectorAll('.notion-subcard');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach((entry, i) => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.transitionDelay = `${i * 120}ms`;
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0) scale(1)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.25 });
+
+            subcards.forEach(card => observer.observe(card));
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', revealSubcards);
+        } else {
+            revealSubcards();
+        }
+    </script>
+
+    <script>
+        const highlights = document.querySelectorAll("#missionStatement .mission-highlight");
+
+        highlights.forEach((hl, i) => {
+            setTimeout(() => {
+                hl.classList.add("revealed");
+            }, i * 500); // 500ms between each highlight
+        });
+
+    </script>
+
+</body>
+
+</html>

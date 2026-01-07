@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Resources - Cyberhawks 706">
+  <title>FIRST Jumpstart | Cyberhawks 706</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/resources.css">
+  <link rel="stylesheet" href="/css/topoBackground.css">
+  <link rel="icon" href="/assets/images/favicon.webp" type="image/webp">
+  <script src="/scripts/include.js" defer></script>
+  <link rel="canonical" href="https://www.cyberhawks706.com/jumpstart/">
+</head>
+
+<body>
+  <canvas id="res-canvas"></canvas>
+  <div class="bg-overlay"></div>
+
+  <div class="site-content">
+    <div data-include="/partials/header.html"></div>
+
+    <main class="notion-container">
+      <h1 class="notion-page-title">Resources</h1>
+      <p class="notion-page-subtitle">Essential Resources & Guides</p>
+
+      <!-- Main FIRST Jumpstart Container -->
+      <section class="jumpstart-main">
+
+        <h2 class="jumpstart-section-title">FIRST Jumpstart</h2>
+        
+        <div class="jumpstart-section">
+          <!-- Subcontainer 1: FTC Team Resources -->
+          <article class="jumpstart-subcontainer">
+            <div class="jumpstart-content">
+              <div class="jumpstart-text">
+                <h2>Stuff a New FTC Team Needs</h2>
+                <p>
+                  Starting a new FIRST Tech Challenge team requires essential resources and planning. 
+                  This guide covers everything from team formation to competition preparation.
+                </p>
+              </div>
+              <div class="jumpstart-image">
+                <img src="/assets/images/team-photo.jpg" alt="FTC Team Resources">
+              </div>
+            </div>
+            <div class="jumpstart-pills">
+              <a href="#" class="jumpstart-pill">Download Guide</a>
+            </div>
+          </article>
+
+          <!-- Subcontainer 2: Knack Hacks -->
+          <article class="jumpstart-subcontainer">
+            <div class="jumpstart-content">
+              <div class="jumpstart-text">
+                <h2>Knack Hacks</h2>
+                <p>
+                  Clever solutions and quick wins for common robotics challenges. 
+                  Learn practical hacks and tricks from experienced teams to improve your robot's performance.
+                </p>
+              </div>
+              <div class="jumpstart-image">
+                <img src="/assets/images/team-photo.jpg" alt="Knack Hacks">
+              </div>
+            </div>
+            <div class="jumpstart-pills">
+              <a href="#" class="jumpstart-pill">View Hacks</a>
+            </div>
+          </article>
+        </div>
+
+        <h2 class="jumpstart-section-title">Programming Resources</h2>
+        
+        <div class="jumpstart-section">
+          <!-- Subcontainer 3: Build Resources -->
+          <article class="jumpstart-subcontainer">
+            <div class="jumpstart-content">
+              <div class="jumpstart-text">
+                <h2>Build Resources</h2>
+                <p>
+                  Comprehensive guides for robot design, fabrication, and assembly. 
+                  Access CAD templates, material specifications, and best practices from expert builders.
+                </p>
+              </div>
+              <div class="jumpstart-image">
+                <img src="/assets/images/resources/drivetrainv2.png" alt="drivetrainv2">
+              </div>
+            </div>
+            <div class="jumpstart-pills">
+              <a href="#" class="jumpstart-pill">CAD Templates</a>
+              <a href="#" class="jumpstart-pill">Materials Guide</a>
+              <a href="#" class="jumpstart-pill">Assembly Videos</a>
+            </div>
+          </article>
+        </div>
+
+      </section>
+
+    </main>
+
+    <div data-include="/partials/footer.html"></div>
+  </div>
+
+  <script type="module">
+    import { initTopoBackground } from "/scripts/topoBackground.js";
+    initTopoBackground();
+  </script>
+  
+
+</body>
+
+</html>

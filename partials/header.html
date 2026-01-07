@@ -1,11 +1,39 @@
-<header>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="robots/index.html">Robots</a></li>
-      <li><a href="sponsors/index.html">Sponsors</a></li>
-      <li><a href="outreach/index.html">Outreach</a></li>
-      <li><a href="contact/index.html">Contact</a></li>
-    </ul>
-  </nav>
+<!-- header.html -->
+<header class="topbar" role="banner">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="topbar-inner">
+    <!-- left logo -->
+    <div class="logo-left">
+      <a href="/" aria-label="Homepage">
+        <img src="/assets/images/header-left.png" alt="Cyberhawks logo" />
+      </a>
+    </div>
+
+    <!-- centered nav (checkbox toggle for mobile) -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+      <!-- mobile toggle (CSS-only) -->
+      <input id="navToggle" class="nav-toggle" type="checkbox" aria-hidden="true" />
+      <label for="navToggle" class="nav-toggle-btn" aria-hidden="true" title="Toggle menu">
+        <span class="hamburger" aria-hidden="true"></span>
+      </label>
+
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/about" class="nav-link">About</a></li>
+        <li><a href="/robots" class="nav-link">Robots</a></li>
+        <li><a href="/sponsors" class="nav-link">Sponsors</a></li>
+        <li><a href="/calendar/" class="nav-link">Calendar</a></li>
+        <li><a href="/resources" class="nav-link">Resources</a></li>
+        <li><a href="/robotsTest" class="nav-link">Testing</a></li>
+      </ul>
+    </nav>
+
+    <!-- right logo -->
+    <div class="logo-right">
+      <a href="https://www.firstinspires.org/" aria-label="Sponsor">
+        <img src="/assets/images/FIRST_Logo.png" alt="Sponsor logo" />
+      </a>
+    </div>
+  </div>
 </header>

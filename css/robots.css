@@ -1,0 +1,1207 @@
+/* Robot divider and spacing */
+.robot-divider {
+    width: 100%;
+    height: 2px;
+    background: var(--neon, #00ffff);
+    margin: 40px 0;
+    border: none;
+}
+
+
+/* 2024 Robot Toggle Switch */
+.robot-toggle-container {
+    text-align: center;
+    margin-bottom: 24px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    position: relative;
+    z-index: 10;
+}
+
+.robot-toggle-container.active {
+    opacity: 1;
+    pointer-events: auto;
+    backface-visibility: visible;
+}
+
+.toggle-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    /* already good */
+    user-select: none;
+    position: relative;
+    /* allow slider pseudo-element positioning */
+}
+
+.toggle-input {
+    opacity: 0;
+    /* better than display: none */
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: -9999px;
+    /* hide but keep functional */
+    pointer-events: auto;
+    /* ensure it can still be toggled via label */
+}
+
+
+/* Make the slider clickable */
+.toggle-slider {
+    position: relative;
+    width: 60px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 0, 157, 0.3);
+    border-radius: 999px;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, var(--neon), var(--neon-acc));
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: left 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 0, 149, 0.4);
+}
+
+.toggle-input:checked+.toggle-slider {
+    background: rgba(255, 0, 128, 0.2);
+    border-color: rgba(255, 0, 119, 0.5);
+}
+
+.toggle-input:checked+.toggle-slider::before {
+    left: calc(100% - 28px);
+}
+
+.toggle-label-main,
+.toggle-label-alt {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.toggle-input:not(:checked)~.toggle-label-main {
+    color: var(--neon);
+}
+
+.toggle-input:checked~.toggle-label-alt {
+    color: var(--neon);
+}
+
+/* Robot variants - smooth fade transition */
+.robot-variant {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 1;
+    visibility: visible;
+    display: block;
+}
+
+.robot-variant.alt-robot {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.robot-variant.alt-robot.is-visible {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.robot-variant.main-robot.is-hidden {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+
+/* Slider container */
+.slider-container {
+    display: flex;
+    justify-content: center;
+    /* center horizontally */
+    align-items: center;
+    /* optional: center vertically within container */
+    width: 100%;
+    /* full width of parent */
+    padding: 50px 0;
+    /* optional spacing */
+}
+
+.slider {
+    position: relative;
+    width: auto;
+    /* grow based on content */
+    height: 100px;
+    overflow: visible;
+    /* show full slide track */
+    background: white;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+    display: flex;
+}
+
+
+/* -------------------------
+   Fonts & variables (moved from outreach/index.html inline styles)
+   ------------------------- */
+@font-face {
+    font-family: 'SofachromeRg';
+    src: url('/fonts/SofachromeRg.otf') format('opentype');
+    font-weight: 400 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bg-dark: #191919;
+    --text: #e4e8f3;
+    --muted: #d7dbe7;
+    --neon: #ec108b;
+    --neon-acc: #ff8fc3;
+    --neon-glow: rgba(255, 0, 106, 0.18);
+    --card-border: rgba(255, 0, 149, 0.3);
+    --maxWidth: 1100px;
+}
+
+/* -------------------------
+   Page basics & header (top bar) (moved from outreach/index.html inline styles)
+   ------------------------- */
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background: var(--bg-dark);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+main {
+    max-width: var(--maxWidth);
+    margin: 48px auto;
+    padding: 20px
+}
+
+/* Top bar / nav strip (from previous) */
+/* Nav links — unified header style (keeps same theme as global) */
+.nav-strip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 72px; /* match global topbar height */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  background: rgba(18, 18, 18, 0.85); /* use the theme translucency from global */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  z-index: 1200;
+  backdrop-filter: blur(8px);
+}
+
+
+.nav-inner {
+    width: 100%;
+    max-width: var(--maxWidth);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    gap: 12px;
+}
+
+.nav-side {
+    display: flex;
+    gap: 18px;
+    align-items: center
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center
+}
+
+.nav-links a {
+    font-family: 'SofachromeRg', 'Oswald', Roboto, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 600;
+    color: var(--text);
+    padding: 6px 8px;
+    font-size: 0.95rem;
+    transition: color .18s ease
+}
+
+.nav-links a:hover {
+    color: var(--neon-acc)
+}
+
+.logo-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-rectangle {
+    font-family: 'SofachromeRg', 'Oswald', Roboto, sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #ec108b;
+    background: #000;
+    padding: 10px 18px;
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* -------------------------
+   Page title (moved from outreach/index.html inline styles)
+   ------------------------- */
+h1.notion-page-title {
+    font-family: 'SofachromeRg', 'Oswald', Roboto, sans-serif;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    margin: 92px 0 8px;
+    text-align: center;
+    color: #fff5fb;
+    letter-spacing: .06em
+}
+
+/* -------------------------
+   Scene & carousel core (moved from outreach/index.html inline styles)
+   ------------------------- */
+.scene {
+    width: 100%;
+    max-width: var(--maxWidth);
+    margin: 18px auto;
+    perspective: 1800px;
+    position: relative;
+    height: auto;
+}
+
+.carousel-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px
+}
+
+.carousel {
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: transform 700ms cubic-bezier(.2, .9, .2, 1);
+    position: relative;
+    margin: 6px auto;
+    min-height: 800px;
+    height: auto;
+}
+
+/* Panel / card style closely matching the non-carousel styling:
+   opaque dark background so flipped faces don't show through */
+.carousel__cell {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    width: min(920px, 94vw);
+    margin-left: calc((min(920px, 94vw)) / -2);
+    min-height: 750px;
+    border-radius: 16px;
+    padding: 32px;
+    background: linear-gradient(180deg, rgba(30, 0, 30, 0.98), rgba(20, 0, 20, 0.98));
+    /* opaque */
+    box-shadow:
+        0 6px 18px rgba(255, 0, 230, 0.25),
+        0 0 20px rgba(255, 102, 255, 0.12);
+    color: var(--text);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, box-shadow .25s ease, transform .25s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: auto;
+}
+
+.carousel__cell.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.65),
+        0 0 56px rgba(255, 0, 230, 0.24);
+    transform: translateY(-6px) translateZ(6px);
+}
+
+/* keep children opaque while rotating */
+.carousel__cell * {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* -------------------------
+   Internal layout (match your robot CSS) (moved from outreach/index.html inline styles)
+   ------------------------- */
+.robot-header {
+    display: grid;
+    grid-template-columns: minmax(0, 320px) 1fr;
+    gap: 32px;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.robot-media {
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 4/3;
+    border-radius: 16px;
+    padding: 14px;
+    background: radial-gradient(circle at 30% 20%, rgba(255, 143, 227, 0.12), rgba(30, 0, 30, 0.86));
+    box-shadow: 0 24px 48px rgba(9, 13, 24, 0.55);
+    display: grid;
+    place-items: center;
+}
+
+.robot-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35)
+}
+
+
+.robot-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* ← crops instead of letterboxing */
+    object-position: center;
+    display: block;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+}
+
+.robot-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left
+}
+
+.robot-season-label {
+    font-size: 1rem;
+    color: rgba(255, 143, 227, 0.9);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 700
+}
+
+.robot-title {
+    font-family: 'SofachromeRg', 'Oswald', Roboto, sans-serif;
+    font-size: clamp(1.6rem, 3.8vw, 3.4rem);
+    font-weight: 800;
+    margin: 0;
+    color: var(--text);
+    text-shadow: 0 0 6px var(--text), 0 0 18px rgba(255, 255, 255, 0.14);
+    line-height: 1;
+}
+
+.robot-season {
+    display: inline-flex;
+    padding: 6px 14px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(255, 200, 100, 0.08), rgba(255, 160, 50, 0.04));
+    border: 1px solid rgba(255, 200, 100, 0.16);
+    font-weight: 600;
+    color: #fff2cc;
+    text-transform: uppercase;
+}
+
+.robot-reveal-link.notion-pill {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    font-size: 0.9rem;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.robot-reveal-link.notion-pill:hover {
+    background: rgba(216, 78, 216, 0.14);
+    transform: translateY(-2px)
+}
+
+.event-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    margin-top: 20px;
+    margin-bottom: 20px
+}
+
+.event-block {
+    background: rgba(20, 0, 20, 0.6);
+    box-shadow: 0 10px 28px rgba(255, 0, 230, 0.3);
+    border-radius: 14px;
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    margin-bottom: 8px;
+}
+
+.event-block:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(255, 0, 230, 0.45);
+}
+
+.event-block h3 {
+    font-size: 1.1rem;
+    margin: 0 0 12px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.event-block h3 span {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 143, 227, 0.68);
+    background: rgba(255, 143, 227, 0.116);
+    padding: 2px 12px;
+}
+
+/* Event tables */
+.event-table,
+.match-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.event-table th,
+.event-table td,
+.match-table th,
+.match-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.95rem;
+    color: #d7dbe7;
+    text-align: left;
+}
+
+.event-table th,
+.match-table th {
+    font-weight: 700;
+    width: 45%;
+    padding-right: 20px;
+}
+
+.event-table td,
+.match-table td {
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.about-section,
+.captains-section,
+.robot-meta-group {
+    background: rgba(20, 0, 12, 0.6);
+    box-shadow: 0 10px 28px rgba(255, 0, 155, 0.3);
+    border-radius: 14px;
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    margin-top: 16px;
+}
+
+.about-section:hover,
+.captains-section:hover,
+.robot-meta-group:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(255, 0, 157, 0.45);
+}
+
+.about-section h4,
+.captains-section h4 {
+    margin: 0 0 12px;
+    font-size: 1rem
+}
+
+.robot-meta {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.robot-meta li {
+    margin: 6px 0;
+    padding: 0;
+}
+
+/* -------------------------
+   Year nav (Liquid Glass to match side-nav)
+   Replace existing .year-nav / .year-nav button / .controls / .arrow-btn rules
+   ------------------------- */
+
+.year-nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+}
+
+/* container that looks like a pill glass bar */
+.year-nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;          /* keep pills on one row; scroll instead of wrapping */
+  padding: 8px;
+  min-height: 56px;
+  max-width: min(820px, 100%);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.005));
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: 0 18px 38px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
+  padding-left: 14px;
+  padding-right: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* subtle sheen inside the pill bar */
+.year-nav::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  width: 60%;
+  height: 30%;
+  left: 20%;
+  top: -6%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 45%, transparent 70%);
+  filter: blur(8px);
+  border-radius: 999px;
+  opacity: 0.7;
+}
+
+/* pills */
+.year-nav button {
+  appearance: none;
+  border: 1px solid transparent;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 700;
+  font-family: 'SofachromeRg', 'Oswald', Roboto, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  font-size: 0.92rem;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 6px 16px rgba(0,0,0,0.22);
+  white-space: nowrap;
+  flex: 0 0 auto; /* avoid collapsing in horizontal scroll */
+}
+
+/* hover lift */
+.year-nav button:hover,
+.year-nav button:focus {
+  transform: translateY(-3px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.18);
+  outline: none;
+}
+
+/* active / selected pill - neon liquid glow */
+.year-nav button.active {
+  background: linear-gradient(90deg, var(--neon) 0%, var(--neon-acc) 100%);
+  color: #000;
+  box-shadow:
+    0 14px 34px var(--neon-glow, rgba(255,0,230,0.22)),
+    0 0 22px rgba(255,102,255,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.45);
+  transform: translateY(-4px) scale(1.03);
+}
+
+/* container for the arrows + pill bar; centers everything */
+.controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* arrow buttons (match side-nav arrow look but slightly rectangular) */
+.arrow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 8px 12px;
+  border-radius: 99px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform .18s ease, box-shadow .18s ease, color .18s ease, background .18s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 18px rgba(0,0,0,0.28);
+}
+
+/* arrow hover */
+.arrow-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  color: var(--neon);
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.05));
+  box-shadow: 0 12px 28px rgba(0,0,0,0.32);
+}
+
+/* make sure horizontal scrollbar is hidden but still scrollable */
+.year-nav::-webkit-scrollbar { height: 6px; }
+.year-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 999px; }
+
+/* Hide scrollbar visually but keep scrolling */
+.year-nav {
+  scrollbar-width: none;      /* Firefox */
+}
+
+.year-nav::-webkit-scrollbar {
+  display: none;              /* Chrome, Safari, Edge */
+}
+
+
+/* responsive: allow pills to occupy full width and center on small screens */
+@media (max-width: 880px) {
+  .year-nav { max-width: 100%; padding-left: 10px; padding-right: 10px; }
+  .controls { gap: 8px; }
+  .arrow-btn { min-width: 40px; height: 40px; border-radius: 10px; }
+  .year-nav button { padding: 8px 10px; font-size: 0.9rem; }
+}
+
+
+/* Responsive (moved from outreach/index.html inline styles) */
+@media (max-width:1024px) {
+    .robot-header {
+        grid-template-columns: 1fr;
+        text-align: center
+    }
+
+    .robot-overview {
+        align-items: center
+    }
+
+    .carousel__cell {
+        width: calc(100% - 32px);
+        margin-left: calc((100% - 32px) / -2);
+        border-radius: 12px;
+        padding: 16px;
+    }
+
+    .nav-inner {
+        padding: 0 10px
+    }
+
+    .nav-strip {
+        height: 64px
+    }
+
+    h1.notion-page-title {
+        margin-top: 84px
+    }
+}
+
+/* small polish (moved from outreach/index.html inline styles) */
+.carousel__cell:focus {
+    outline: 2px solid rgba(255, 143, 227, 0.18);
+    outline-offset: 4px
+}
+
+/* Additional inline styles moved from outreach/index.html */
+.side-logo img {
+    display: block;
+}
+
+.side-logo.left-logo img {
+    height: 36px;
+}
+
+.side-logo.right-logo img {
+    height: 28px;
+    margin-left: 12px;
+}
+
+.nav-link.donate-btn {
+    background: #EC108B;
+    color: #000;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.year-selector {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.robot-meta ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.event-details p {
+    margin: 0;
+}
+
+.video-modal {
+    display: none;
+}
+
+#videoOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .85);
+    z-index: 9998;
+    display: none;
+}
+
+/* keep the modal element present in layout; toggle children instead */
+.video-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  pointer-events: none; /* blocked until active */
+}
+
+/* overlay + content hidden by default */
+.video-modal .video-modal-overlay,
+.video-modal .video-modal-content {
+  display: none;
+}
+
+/* when active, show overlay + content and allow interaction */
+.video-modal.active {
+  pointer-events: auto;
+}
+
+.video-modal.active .video-modal-overlay,
+.video-modal.active .video-modal-content {
+  display: block;
+}
+
+/* basic overlay positioning */
+.video-modal .video-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 9999;
+}
+
+/* center the content and cap width */
+.video-modal .video-modal-content {
+  position: relative;
+  z-index: 10000;
+  width: min(1200px, 96%);
+  max-height: 86vh;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+}
+
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+#modalTitle {
+    margin: 0;
+    color: #fff;
+}
+
+#closeModal {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+}
+
+#modalVideo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 8px;
+}
+
+/* ------------------------
+   Make carousel slides match robot/event cards exactly
+   Paste at the END of outreach.css to override earlier rules
+   ------------------------ */
+
+/* Base card visual (copy of .event-block / .robot-card styling) */
+.slide,
+.carousel-card {
+    /* layout */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 250px;
+    /* preserve horizontal rhythm; change if needed */
+    flex-shrink: 0;
+
+    /* visual (match robot.css event-block) */
+    padding: 18px;
+    border-radius: 16px;
+    background: rgba(20, 0, 20, 0.6);
+    border: 1px solid rgba(255, 0, 230, 0.3);
+    color: #e4e8f3;
+    box-shadow:
+        0 6px 18px rgba(255, 0, 230, 0.25),
+        0 0 20px rgba(255, 102, 255, 0.15);
+
+    /* motion */
+    transition: transform 0.25s ease, box-shadow 0.3s ease, background .2s ease;
+    will-change: transform;
+    overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Active / hover lift - identical behavior to event-block:hover */
+.slide:hover,
+.slide:focus,
+.carousel-card:hover,
+.carousel-card:focus {
+    transform: translateY(-6px);
+    box-shadow:
+        0 12px 32px rgba(255, 0, 230, 0.5),
+        0 0 32px rgba(255, 102, 255, 0.25);
+    outline: none;
+}
+
+/* Slight pop when selected (if you mark it .is-active) */
+.slide.is-active,
+.carousel-card.is-active {
+    transform: translateY(-6px) translateZ(6px);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.65),
+        0 0 56px rgba(255, 0, 230, 0.24);
+}
+
+/* Headings inside card mirror event-block headings */
+.slide h3,
+.carousel-card h3,
+.slide .slide-title,
+.carousel-card .slide-title {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #e6ecff;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    line-height: 1.15;
+}
+
+/* Small badge in headings (style exactly like event-block h3 span) */
+.slide h3 span,
+.carousel-card h3 span,
+.slide .badge,
+.carousel-card .badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 143, 227, 0.68);
+    background: rgba(255, 143, 227, 0.116);
+    border: 1px solid rgba(255, 143, 227, 0.116);
+    border-radius: 999px;
+    padding: 2px 12px;
+}
+
+/* Text copy style */
+.slide p,
+.carousel-card p,
+.slide .meta,
+.carousel-card .meta {
+    margin: 0;
+    color: #d7dbe7;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Event/table styles inside the card copy the robot.css event-table */
+.slide table,
+.carousel-card table,
+.slide .event-table,
+.carousel-card .event-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.slide table th,
+.slide table td,
+.carousel-card table th,
+.carousel-card table td {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.95rem;
+    color: #d7dbe7;
+}
+
+/* fix images — they were too large before */
+.slide img,
+.carousel-card img,
+.slide .robot-photo,
+.carousel-card .robot-photo {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    /* constrain width inside horizontal carousel */
+    max-height: 220px;
+    /* keep tall images from exploding the card */
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+    margin: 0 auto;
+}
+
+/* If you want the image to sit to the left like the robot header, you can include a small helper */
+.slide .media-row,
+.carousel-card .media-row {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+/* Ensure internal sections (about/captains) match the same boxed look */
+.slide .about-section,
+.carousel-card .about-section,
+.slide .captains-section,
+.carousel-card .captains-section {
+    background: rgba(17, 21, 30, 0.66);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    padding: 14px;
+    border-radius: 14px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    margin-top: 12px;
+}
+
+/* Captains list style — keep it compact and prevented from expanding out of the card */
+.slide .captains-section ul,
+.carousel-card .captains-section ul {
+    margin: 0;
+    padding-left: 18px;
+    list-style: none;
+    color: #e4e8f3;
+}
+
+.slide .captains-section li,
+.carousel-card .captains-section li {
+    margin: 4px 0;
+    line-height: 1.35;
+}
+
+/* Accessibility focus visible */
+.slide:focus-visible,
+.carousel-card:focus-visible {
+    outline: 2px solid rgba(255, 143, 227, 0.18);
+    outline-offset: 4px;
+}
+
+/* Responsive: on small screens make each slide a full-width card (looks like stacked notion cards) */
+@media (max-width: 880px) {
+
+    .slide,
+    .carousel-card {
+        width: calc(100% - 32px) !important;
+        max-width: none;
+        margin: 0 auto;
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .carousel__cell {
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+}
+
+.robot-toggle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 10;
+}
+
+.robot-toggle-container.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.toggle-label-main,
+.toggle-label-alt {
+    cursor: default;
+    user-select: none;
+}
+
+
+/* Year nav with windowed view */
+.year-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+  border: 1px solid rgba(255,255,255,0.03);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+}
+
+/* inner container which holds the pills */
+.year-nav-inner {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* arrows on both sides */
+.year-nav .year-nav-arrow {
+  appearance: none;
+  border: 0;
+  background: rgba(255,255,255,0.02);
+  color: var(--text);
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 18px;
+  transition: transform .12s ease, background .12s ease;
+}
+.year-nav .year-nav-arrow:hover { transform: translateY(-2px); background: rgba(255,255,255,0.04); }
+
+/* year pill */
+.year-nav-inner button {
+  appearance: none;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.02);
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.year-nav-inner button.active {
+  background: linear-gradient(90deg, var(--neon) 0%, var(--neon-acc) 100%);
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px var(--neon-glow);
+}
+
+/* hide arrow when not needed (use visibility so layout keeps centered) */
+.year-nav .year-nav-arrow.hidden { visibility: hidden; opacity: 0.0; pointer-events: none; }
+
+.year-nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.year-nav {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  max-width: 420px; /* ≈ 5 buttons */
+}
+
+.year-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.year-btn {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.year-arrow {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 2147483647; /* absolute top */
+  isolation: isolate; /* critical */
+}
+
+.video-modal.active {
+  display: flex;
+}

@@ -1,0 +1,359 @@
+/* =========================
+   Sub-team Vertical Panels
+   ========================= */
+
+.subteam-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  margin-top: 56px;
+}
+
+/* Panel */
+.subteam-panel {
+  background: rgba(18, 22, 32, 0.7);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 18px 36px rgba(7, 10, 18, 0.55);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.35s cubic-bezier(.22,.9,.26,1),
+    box-shadow 0.3s ease;
+}
+
+/* Image on top */
+.subteam-panel img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Content */
+.subteam-panel h3 {
+  margin: 24px 24px 12px;
+  font-size: 1.45rem;
+  letter-spacing: 0.06em;
+  color: #ff8fd0;
+}
+
+.subteam-panel p {
+  margin: 0 24px 32px;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #e0d3db;
+}
+
+/* Hover */
+.subteam-panel:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 32px 64px rgba(0,0,0,0.65);
+}
+
+/* =========================
+   Responsive behavior
+   ========================= */
+
+@media (max-width: 1100px) {
+  .subteam-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .subteam-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .subteam-panel img {
+    height: 200px;
+  }
+}
+
+
+/* =========================
+   Mission section (kept)
+   ========================= */
+.mission-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  padding: 15vh 1rem 0 1rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.mission-statement {
+  font-size: 4vw;
+  font-weight: bold;
+  line-height: 1.1;
+  width: 60%;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.mission-image {
+  margin-top: 2rem;
+  padding: 2rem;
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 600px) {
+  .mission-statement { font-size: 10vw; }
+}
+.mission-highlight { color: #ec108b; }
+
+.mission-statement {
+  font-size: 4vw;
+  font-weight: bold;
+  line-height: 1.2;
+  position: relative;
+  display: inline-block;
+}
+
+.mission-statement span {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+/* create line-by-line overlays */
+.mission-statement span::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0; /* start from right */
+  width: 100%;
+  height: 100%;
+  background-color: #ec108b;
+  transform-origin: right center;
+  transform: scaleX(1);
+  z-index: 2;
+  transition: transform 0.6s ease;
+  display: block;
+}
+
+.mission-statement span.revealed::before {
+  transform: scaleX(0);
+}
+
+
+/* =========================
+   History Section – Narrative Band
+   ========================= */
+#history {
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 18, 26, 0.6),
+    rgba(14, 18, 26, 0.85)
+  );
+  border: none;
+  box-shadow: none;
+  padding: 96px 24px;
+}
+
+#history h2 {
+  max-width: 720px;
+  margin: 0 auto 24px;
+  font-size: 2.2rem;
+  letter-spacing: 0.08em;
+}
+
+#history p {
+  max-width: 720px;
+  margin: 0 auto 20px;
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: #e4dce3;
+}
+
+/* =========================
+   Sub-teams Section – Showcase
+   ========================= */
+#subteams {
+  margin-top: 0;
+  padding: 120px 24px;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255,143,208,0.08), transparent 40%),
+    rgba(10, 14, 22, 0.9);
+  border: none;
+  box-shadow: none;
+}
+
+#subteams h2 {
+  text-align: center;
+  font-size: 2.6rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 16px;
+}
+
+#subteams > p {
+  max-width: 760px;
+  margin: 0 auto 96px;
+  text-align: center;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #d8cbd4;
+}
+
+/* ---------- Page bands (structure) ---------- */
+.page-sections { counter-reset: bands; }
+
+/* shared band styles */
+.band {
+  position: relative;
+  width: 100%;
+  padding: 80px 24px;
+  box-sizing: border-box;
+}
+.band-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ---------- Narrative / History band ---------- */
+.band.narrative {
+  background: linear-gradient(180deg, rgba(10,14,20,0.6), rgba(10,14,20,0.9));
+  padding: 96px 24px;
+}
+.band.narrative .band-inner { max-width: 840px; }
+.band.narrative h2 {
+  font-size: 2.1rem;
+  margin-bottom: 18px;
+  letter-spacing: 0.06em;
+}
+.band.narrative p {
+  font-size: 1.12rem;
+  line-height: 1.9;
+  color: #e6dfe6;
+  margin-bottom: 18px;
+}
+
+/* ---------- Showcase (Sub-teams) band ---------- */
+.band.showcase {
+  padding: 120px 0;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255,143,208,0.06), transparent 30%),
+    linear-gradient(180deg, rgba(8,10,14,0.9), rgba(8,10,14,0.95));
+  overflow: visible; /* allow panels to visually escape */
+}
+.showcase-header { text-align: center; margin-bottom: 56px; }
+.showcase-header h2 {
+  font-size: 2.6rem;
+  letter-spacing: 0.12em;
+}
+.showcase-header .subtitle {
+  margin-top: 8px;
+  color: #d9cbd6;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.05rem;
+}
+
+/* ---------- Showcase grid: panels ---------- */
+.showcase-grid {
+  display: grid;
+  gap: 64px;
+  width: 100%;
+  align-items: stretch;
+}
+
+/* panel base */
+.panel {
+  display: grid;
+  grid-template-columns: 1fr 420px; /* content | media */
+  gap: 32px;
+  align-items: center;
+  background: rgba(18,22,30,0.55);
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(6,8,12,0.6);
+  position: relative;
+  overflow: visible;
+  transition: transform .28s cubic-bezier(.22,.9,.26,1), box-shadow .2s;
+}
+
+/* Panels alternate: media-left or media-right classes */
+.panel--media-left { grid-template-columns: 420px 1fr; }
+.panel--media-right { grid-template-columns: 1fr 420px; }
+
+/* Make the media feel like it escapes */
+.panel-media {
+  justify-self: center;
+  align-self: center;
+  width: 420px;
+  height: 260px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(3,6,10,0.45);
+  background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.15));
+}
+.panel-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: translateZ(0);
+}
+
+/* content */
+.panel-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #ff8fd0;
+}
+.panel-content p { color: #e0d6dd; line-height: 1.8; font-size: 1.06rem; }
+
+/* hover lift */
+.panel:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+}
+
+/* panel breakout on wide screens: allow visual "escape" */
+@media (min-width: 1100px) {
+  .band.showcase .band-inner { max-width: 1200px; }
+  .panel { margin-left: -48px; margin-right: -48px; padding: 56px; }
+  .panel--media-left .panel-media { transform: translateX(-8%); }
+  .panel--media-right .panel-media { transform: translateX(8%); }
+}
+
+/* responsive: stack on narrow screens */
+@media (max-width: 992px) {
+  .panel,
+  .panel--media-left,
+  .panel--media-right {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+  .panel-media {
+    width: 100%;
+    height: 220px;
+    margin-bottom: 18px;
+  }
+  .panel { border-radius: 12px; }
+}
+
+/* Reduce Notion-ness: make previous notion-subcard rules inert (optional) */
+.notion-card, .notion-subcard { border: none; box-shadow: none; background: transparent; }
+
+.subteam-section {
+  max-width: 1400px;
+  margin: 120px auto;
+  padding: 0 48px;
+}
+
+.subteam-section > h2,
+.subteam-section > .subteam-intro {
+    text-align: center;
+}

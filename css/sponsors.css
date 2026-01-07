@@ -1,0 +1,167 @@
+/* ===== Sponsors page styles (SVG wave + raster fallback) ===== */
+
+/* Basic section spacing */
+.sponsors-card {
+  padding: 20px;
+}
+
+/* Grid: responsive columns */
+.sponsor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+/* Sponsor link container (no card shadow by default) */
+.sponsor-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.28s cubic-bezier(.2,.9,.2,1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Wrap that will contain stacked SVGs or raster fallback */
+.svg-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  display: inline-block;
+  line-height: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.svg-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+
+  /* Lock the layout */
+  aspect-ratio: 3 / 1; /* adjust if needed */
+  
+  display: inline-block;
+  line-height: 0;
+}
+
+
+/* Base (white) svg styling */
+.sponsor-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Force white look for base layer (applies to paths, shapes, strokes) */
+.sponsor-svg.base * {
+  fill: white !important;
+  stroke: white !important;
+  color: white !important;
+  /* don't interfere with elements intentionally set to none */
+}
+
+/* Color layer: absolutely stacked and masked */
+.sponsor-svg.color {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  /* wave mask: reveal color portion inside the logo */
+  --wave: linear-gradient(120deg, transparent 0%, black 40%, black 60%, black 100%);
+  -webkit-mask-image: var(--wave);
+  -webkit-mask-size: 200% 100%;
+  -webkit-mask-position: -100% 0;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: var(--wave);
+  mask-size: 200% 100%;
+  mask-position: -100% 0;
+  mask-repeat: no-repeat;
+  transition: opacity 0.12s linear;
+}
+
+.sponsor-item:hover {
+  transform: scale(1.08);
+}
+
+/* Reveal color layer with a passing wave */
+.sponsor-item:hover .sponsor-svg.color {
+  opacity: 1;
+  animation: wave-pass 0.9s ease forwards;
+}
+
+@keyframes wave-pass {
+  from {
+    mask-position: -100% 0;
+    -webkit-mask-position: -100% 0;
+  }
+  to {
+    mask-position: 100% 0;
+    -webkit-mask-position: 100% 0;
+  }
+}
+
+
+/* Raster fallback behaviour */
+.svg-wrap.raster img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(100%) contrast(.95) brightness(.95);
+  transition: transform 0.28s cubic-bezier(.2,.9,.2,1), filter 0.28s ease;
+  border-radius: 8px;
+}
+.svg-wrap.raster:hover img {
+  filter: none;
+}
+
+/* Tier-specific sizing (keeps your previous size plan) */
+.tier-hawks .svg-wrap { max-width: 300px; }
+.tier-wings .svg-wrap { max-width: 250px; }
+.tier-talons .svg-wrap { max-width: 200px; }
+.tier-fledgling .svg-wrap { max-width: 150px; }
+.tier-nest .svg-wrap { max-width: 120px; }
+
+/* Spacing tweaks per tier */
+.tier-hawks .sponsor-grid { gap: 3rem; }
+.tier-wings .sponsor-grid { gap: 2.5rem; }
+.tier-talons .sponsor-grid { gap: 2rem; }
+.tier-fledgling .sponsor-grid { gap: 1.5rem; }
+.tier-nest .sponsor-grid { gap: 1rem; }
+
+/* Sponsor header alignment */
+.sponsor-header { text-align: center; margin-bottom: 1rem; }
+.sponsor-title { font-size: 2rem; margin-bottom: 0.5rem; }
+.sponsor-summary { font-size: 1rem; color: #d7dbe7; }
+
+/* Small-screen tweak */
+@media (max-width: 520px) {
+  .sponsor-item:hover { transform: none; } /* avoid awkward scaling on tiny screens */
+  .sponsor-grid { gap: 1rem; }
+}
+
+.sponsor-svg {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.sponsor-item {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.sponsors-loaded .sponsor-item {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+

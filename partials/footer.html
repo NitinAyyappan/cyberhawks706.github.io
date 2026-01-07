@@ -1,3 +1,45 @@
-<footer>
-  <p>&copy; 2025 Cyberhawks FRC 706 | All rights reserved</p>
+<footer class="footer-hero" aria-label="Site footer">
+  <!-- Hero section with animated 706 text -->
+  <div class="footer-hero-section">
+    <div class="footer-hero-content">
+      <h2 class="footer-hero-text">706</h2>
+    </div>
+  </div>
+
+  <!-- Footer links with image cards -->
+  <div class="footer-links-section">
+    <div class="footer-links-grid">
+      <a href="/about/" class="footer-link-card">
+        <img src="/assets/images/team-photo.jpg" alt="About">
+        <div class="footer-link-overlay"></div>
+        <span class="footer-link-text">About</span>
+      </a>
+
+      <a href="/robots/" class="footer-link-card">
+        <img src="/assets/images/robots/robot-reefscape.JPG" alt="Robots">
+        <div class="footer-link-overlay"></div>
+        <span class="footer-link-text">Robots</span>
+      </a>
+
+      <a href="/sponsors" class="footer-link-card">
+        <img src="/assets/images/team-photo.jpg" alt="Sponsors">
+        <div class="footer-link-overlay"></div>
+        <span class="footer-link-text">Sponsors</span>
+      </a>
+
+      <a href="/calendar/" class="footer-link-card">
+        <img src="/assets/images/team-photo.jpg" alt="Resources">
+        <div class="footer-link-overlay"></div>
+        <span class="footer-link-text">Resources</span>
+      </a>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <p class="footer-copy">&copy; <span id="cyYear"></span> Cyberhawks 706 — All rights reserved.</p>
+  </div>
 </footer>
+
+<script>
+  document.getElementById('cyYear').textContent = new Date().getFullYear();
+</script>

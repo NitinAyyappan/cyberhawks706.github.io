@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sponsors - Cyberhawks FRC 706</title>
+
+  <link rel="stylesheet" href="/css/global.css" />
+  <link rel="stylesheet" href="/css/sponsors.css" />
+  <link rel="stylesheet" href="/css/topoBackground.css" />
+  <link rel="icon" href="/assets/images/favicon.webp" type="image/webp" />
+
+  <script src="/scripts/include.js" defer></script>
+  <script src="/scripts/side-nav.js" defer></script>
+</head>
+
+<body class="notion">
+
+  <!-- Background (fixed layers) -->
+  <canvas id="res-canvas"></canvas>
+  <div class="bg-overlay"></div>
+
+  <div class="fps-container">
+    <p id="fps-count"></p>
+  </div>
+
+  <div data-include="/partials/header.html"></div>
+
+  <main class="notion-container site-content">
+    <h1 class="notion-page-title">Sponsors</h1>
+
+    <!-- Hawks Section -->
+    <section id="hawks" class="notion-card sponsors-card tier-hawks">
+      <header class="sponsor-header">
+        <h2 class="sponsor-title">Hawks</h2>
+        <p class="sponsor-summary">$5000+</p>
+      </header>
+      <div class="sponsor-grid">
+        <a class="sponsor-item" href="https://www.arrowheadschools.org" target="_blank" rel="noopener noreferrer" aria-label="Arrowhead High School">
+          <!-- keep image src but prefer svg: the inliner will convert if a .svg exists or the src is svg -->
+          <img class="sponsor-svg-img" src="/assets/images/sponsors/AHS.svg" alt="Arrowhead High School Logo" loading="lazy">
+        </a>
+
+        <a class="sponsor-item" href="https://www.revatek.com" target="_blank" rel="noopener noreferrer" aria-label="Revatek">
+          <img class="sponsor-svg-img" src="/assets/images/sponsors/Revatek.svg" alt="Revatek" loading="lazy">
+        </a>
+
+        <a class="sponsor-item" href="https://www.gatesfoundation.org" target="_blank" rel="noopener noreferrer" aria-label="Gates Foundation">
+          <img class="sponsor-svg-img" src="/assets/images/sponsors/GatesFoundation.svg" alt="Gates Foundation" loading="lazy">
+        </a>
+      </div>
+    </section>
+
+    <!-- Wings Section -->
+    <section id="wings" class="notion-card sponsors-card tier-wings">
+      <header class="sponsor-header">
+        <h2 class="sponsor-title">Wings</h2>
+        <p class="sponsor-summary">$2500-$4999</p>
+      </header>
+      <div class="sponsor-grid">
+        <a class="sponsor-item" href="https://www.johndeere.com" target="_blank" rel="noopener noreferrer" aria-label="John Deere">
+          <img class="sponsor-svg-img" src="/assets/images/sponsors/JohnDeere.svg" alt="John Deere Logo" loading="lazy">
+        </a>
+
+        <a class="sponsor-item" href="https://www.revatek.com" target="_blank" rel="noopener noreferrer" aria-label="Revatek">
+          <img class="sponsor-svg-img" src="/assets/images/sponsors/Revatek.svg" alt="Revatek" loading="lazy">
+        </a>
+
+        <a class="sponsor-item" href="https://www.gatesfoundation.org" target="_blank" rel="noopener noreferrer" aria-label="Gates Foundation">
+          <img class="sponsor-svg-img" src="/assets/images/sponsors/GatesFoundation.svg" alt="Gates Foundation" loading="lazy">
+        </a>
+      </div>
+    </section>
+
+    <!-- Talons Section -->
+    <section id="talons" class="notion-card sponsors-card tier-talons">
+      <header class="sponsor-header">
+        <h2 class="sponsor-title">Talons</h2>
+        <p class="sponsor-summary">$1000-$2499</p>
+      </header>
+      <div class="sponsor-grid">
+        <!-- These are raster images in your original — left as JPG fallback; converter will keep them -->
+        <a class="sponsor-item" href="#" target="_blank" rel="noopener noreferrer" aria-label="Talons Sponsor 1">
+          <img class="sponsor-svg-img" src="/images/sponsors-2025-banner-4.jpg" alt="Talons Sponsor 1" loading="lazy">
+        </a>
+        <a class="sponsor-item" href="#" target="_blank" rel="noopener noreferrer" aria-label="Talons Sponsor 2">
+          <img class="sponsor-svg-img" src="/images/sponsors-2025-banner-5.jpg" alt="Talons Sponsor 2" loading="lazy">
+        </a>
+      </div>
+    </section>
+
+    <!-- Fledgling Section -->
+    <section id="fledgling" class="notion-card sponsors-card tier-fledgling">
+      <header class="sponsor-header">
+        <h2 class="sponsor-title">Fledgling</h2>
+        <p class="sponsor-summary">$500-$999</p>
+      </header>
+      <div class="sponsor-grid">
+        <a class="sponsor-item" href="#" target="_blank" rel="noopener noreferrer" aria-label="Fledgling Sponsor 1">
+          <img class="sponsor-svg-img" src="/images/sponsors-2025-banner-6.jpg" alt="Fledgling Sponsor 1" loading="lazy">
+        </a>
+      </div>
+    </section>
+
+    <!-- Nest Section -->
+    <section id="nest" class="notion-card sponsors-card tier-nest">
+      <header class="sponsor-header">
+        <h2 class="sponsor-title">Nest</h2>
+        <p class="sponsor-summary">$0-$500</p>
+      </header>
+      <div class="sponsor-grid">
+        <a class="sponsor-item" href="#" target="_blank" rel="noopener noreferrer" aria-label="Nest Sponsor 1">
+          <img class="sponsor-svg-img" src="/images/sponsors-2025-banner-7.jpg" alt="Nest Sponsor 1" loading="lazy">
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div data-include="partials/footer.html"></div>
+
+  <!-- Initialize topo background after DOM is parsed -->
+  <script type="module">
+    import { initTopoBackground } from "/scripts/topoBackground.js";
+    window.addEventListener("DOMContentLoaded", () => initTopoBackground());
+  </script>
+
+  <!-- SVG inliner + fallback (runs after DOMContentLoaded) -->
+  <script>
+  // Inlines SVGs when possible, duplicates into base (white) + color (revealed by mask).
+  // Falls back to raster grayscale behavior for PNG/JPG.
+  (function(){
+    async function tryFetchSvg(url) {
+      try {
+        const res = await fetch(url, {cache: "no-store"});
+        if (!res.ok) return null;
+        const text = await res.text();
+        if (text && text.includes('<svg')) return text;
+        return null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function createWrapperFromSvgText(svgText) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svgText, "image/svg+xml");
+      const svg = doc.querySelector("svg");
+      if (!svg) return null;
+
+      const baseSvg = svg.cloneNode(true);
+      baseSvg.classList.add("sponsor-svg","base");
+      // remove width/height attributes so CSS sizing works
+      baseSvg.removeAttribute("width");
+      baseSvg.removeAttribute("height");
+      baseSvg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+      const colorSvg = svg.cloneNode(true);
+      colorSvg.classList.add("sponsor-svg","color");
+      colorSvg.removeAttribute("width");
+      colorSvg.removeAttribute("height");
+      colorSvg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+      const span = document.createElement("span");
+      span.className = "svg-wrap";
+      span.appendChild(baseSvg);
+      span.appendChild(colorSvg);
+      return span;
+    }
+
+    async function inlineAll() {
+      const imgs = Array.from(document.querySelectorAll("img.sponsor-svg-img"));
+      await Promise.all(imgs.map(async (img) => {
+        const src = img.getAttribute("src") || "";
+        // Try the src directly first
+        let svgText = null;
+        if (src.toLowerCase().endsWith(".svg")) {
+          svgText = await tryFetchSvg(src);
+        } else {
+          // try original src (maybe server already serves svg) then fallback to replace ext -> .svg
+          svgText = await tryFetchSvg(src);
+          if (!svgText) {
+            const altSvg = src.replace(/\.\w+$/, ".svg");
+            svgText = await tryFetchSvg(altSvg);
+          }
+        }
+
+        const anchor = img.closest(".sponsor-item");
+        // build wrapper:
+        if (svgText) {
+          const wrapper = createWrapperFromSvgText(svgText);
+          if (wrapper) {
+            // if inside anchor, replace img with wrapper (keeps anchor)
+            img.replaceWith(wrapper);
+            // keep accessibility label
+            const alt = img.getAttribute("alt");
+            if (alt) wrapper.setAttribute("aria-label", alt);
+            return;
+          }
+        }
+
+        // Fallback: raster image — wrap to apply grayscale -> color hover
+        const rasterWrap = document.createElement("span");
+        rasterWrap.className = "svg-wrap raster";
+        // move the original image node into the wrapper
+        rasterWrap.appendChild(img.cloneNode(true));
+        img.replaceWith(rasterWrap);
+      }));
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", inlineAll);
+    } else {
+      inlineAll();
+    }
+  })();
+
+  window.addEventListener("load", () => {
+  document.body.classList.add("sponsors-loaded");
+});
+
+  </script>
+</body>
+</html>

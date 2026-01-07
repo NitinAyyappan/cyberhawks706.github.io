@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>706 — Menu</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#302a2a;color:#fff;font-family:Inter,Roboto,sans-serif;overflow-x:hidden}
+
+  /* header */
+  header{
+    position:fixed;top:0;left:0;width:100%;height:64px;
+    display:flex;align-items:center;justify-content:space-between;padding:0 20px;
+    z-index:1200; /* keep header above most things */
+  }
+  .logo{font-weight:800;color:#ec108b;font-size:1.9rem;letter-spacing:.06em;cursor:pointer}
+
+  /* square toggle (keeps highest z) */
+  .menu-toggle{
+    --size:50px;
+    width:var(--size);height:var(--size);
+    border-radius:12px;background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    display:grid;place-items:center;cursor:pointer;
+    transition:background .18s ease;
+    z-index:1400; /* <-- IMPORTANT: above overlay & menu items */
+    position:relative;
+  }
+  .menu-toggle:hover{background:rgba(236,16,139,0.06)}
+
+  /* bars / X */
+  .menu-toggle .bar{
+    position:absolute;width:26px;height:3px;background:#fff;border-radius:2px;
+    transition:transform .18s ease,opacity .12s ease,background .12s ease;
+    will-change:transform,opacity;
+  }
+  .bar1{top:14px}
+  .bar2{top:21px}
+  .bar3{top:28px}
+
+  /* visible X when active (fast) */
+  .menu-toggle.active .bar1{transform:rotate(45deg) translate(4px,4px)}
+  .menu-toggle.active .bar2{opacity:0}
+  .menu-toggle.active .bar3{transform:rotate(-45deg) translate(4px,-4px)}
+
+  /* overlay expands from the toggle location */
+  .menu-overlay{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,0.96);
+    clip-path:circle(0% at calc(100% - 36px) 36px);
+    transition:clip-path .52s cubic-bezier(.2,.9,.25,1);
+    z-index:1100; /* behind the toggle (toggle is 1400) */
+    pointer-events:none;
+  }
+  /* when active expand to cover */
+  .menu-overlay.active{
+    clip-path:circle(200% at calc(100% - 36px) 36px);
+    pointer-events:auto;
+  }
+
+  /* menu items: right stacked */
+  .menu-items{
+    position:fixed;top:50%;right:6%;
+    transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:28px;
+    z-index:1300;opacity:0;pointer-events:none;
+    transition:opacity .12s linear .08s;
+  }
+  .menu-items.active{opacity:1;pointer-events:auto}
+
+  /* header-like big links */
+  .menu-items a{
+    color:#fff;text-decoration:none;
+    font-weight:900;font-family: 'SofachromeRg', Inter, sans-serif;
+    font-size:3.6rem;line-height:1;letter-spacing:.03em;
+    transform:translateX(40px) scale(1);
+    opacity:0;
+    display:inline-block;
+    will-change:transform,opacity;
+    /* when animation not running, small transition for returning to normal */
+    transition: transform .12s cubic-bezier(.2,.9,.2,1), color .12s ease;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* pop keyframes: snap up then settle slightly bigger */
+  @keyframes pop {
+    0%   { transform: translateX(0) scale(1); }
+    30%  { transform: translateX(0) scale(1.18); } /* snap up */
+    100% { transform: translateX(0) scale(1.06); } /* settle while hovered */
+  }
+
+  /* stagger the entrance when overlay opens */
+  .menu-items.active a{ opacity:1; transform:translateX(0) }
+  .menu-items.active a:nth-child(1){ transition-delay: .02s; }
+  .menu-items.active a:nth-child(2){ transition-delay: .05s; }
+  .menu-items.active a:nth-child(3){ transition-delay: .08s; }
+  .menu-items.active a:nth-child(4){ transition-delay: .11s; }
+  .menu-items.active a:nth-child(5){ transition-delay: .14s; }
+  .menu-items.active a:nth-child(6){ transition-delay: .17s; }
+  .menu-items.active a:nth-child(7){ transition-delay: .20s; }
+
+  /* ! HOVER: play the pop animation quickly while hovered
+     - animation runs only while hovered (defined on :hover)
+     - when hover ends, animation is removed and the element smoothly transitions back to scale(1)
+  */
+  .menu-items a:hover{
+    color:#ec108b;
+    animation: pop .18s cubic-bezier(.28,.84,.42,1) both;
+  }
+
+  /* accessible focus state (keyboard) */
+  .menu-items a:focus{
+    outline: none;
+    animation: pop .18s cubic-bezier(.28,.84,.42,1) both;
+    color:#ec108b;
+  }
+
+  /* small screens: scale down font & right offset */
+  @media (max-width:720px){
+    .menu-items{ right:4% }
+    .menu-items a{ font-size:2.4rem }
+  }
+
+  /* left image inside menu overlay */
+.menu-left-image-container {
+  position:fixed;
+  top:50%;
+  left:6%;
+  transform:translateY(-50%);
+  width:700px; /* adjust as needed */
+  height:700px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition: opacity .3s ease;
+  z-index:1300; /* above overlay but below toggle */
+}
+
+.menu-left-image-container img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+.menu-left-text {
+  position: fixed;
+  top: 20%;       /* adjust vertical position */
+  left: 0;        /* start at left edge */
+  width: 100%;    /* full width for continuous scroll */
+  overflow: hidden;
+  z-index: 1300;  /* above overlay but below toggle */
+  opacity: 0;     /* hidden by default */
+  transition: opacity .3s ease;
+}
+
+.menu-left-text .marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scrollLeft 15s linear infinite;
+}
+
+.menu-left-text .marquee span {
+  font-weight: 900;
+  font-size: 2rem;
+  color: #fff; /* white text */
+  -webkit-text-stroke: 1px #ec108b; /* pink outline */
+  letter-spacing: 0.1em;
+}
+@keyframes scrollLeft {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" aria-label="Cyberhawks 706 Home">706</div>
+
+  <!-- toggle is a button for accessibility -->
+  <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="menuOverlay menuItems" aria-label="Open menu">
+    <span class="bar bar1"></span>
+    <span class="bar bar2"></span>
+    <span class="bar bar3"></span>
+  </button>
+</header>
+
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+  <div class="menu-left-text">
+    <div class="marquee">
+      <span>GEARED TO FLY • GEARED TO FLY • GEARED TO FLY • GEARED TO FLY • GEARED TO FLY • GEARED TO FLY • GEARED TO FLY • GEARED TO FLY • </span>
+    </div>
+  </div>
+
+  <div class="menu-left-image-container">
+    <img id="menuLeftImg" src="" alt="Menu preview">
+  </div>
+</div>
+
+<nav class="menu-items" id="menuItems" aria-hidden="true" role="navigation">
+  <a href="#">Home</a>
+  <a href="#">About</a>
+  <a href="#">Projects</a>
+  <a href="#">Team</a>
+  <a href="#">Sponsors</a>
+  <a href="#">Events</a>
+  <a href="#">Contact</a>
+</nav>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const overlay = document.getElementById('menuOverlay');
+  const items = document.getElementById('menuItems');
+
+  function openMenu(){
+    toggle.classList.add('active');
+    overlay.classList.add('active');
+    items.classList.add('active');
+    toggle.setAttribute('aria-expanded','true');
+    overlay.setAttribute('aria-hidden','false');
+    items.setAttribute('aria-hidden','false');
+  }
+  function closeMenu(){
+    toggle.classList.remove('active');
+    overlay.classList.remove('active');
+    items.classList.remove('active');
+    toggle.setAttribute('aria-expanded','false');
+    overlay.setAttribute('aria-hidden','true');
+    items.setAttribute('aria-hidden','true');
+  }
+  function toggleMenu(){
+    if(toggle.classList.contains('active')) closeMenu();
+    else openMenu();
+  }
+
+  toggle.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  // close with escape
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && toggle.classList.contains('active')) closeMenu();
+  });
+
+  // trap focus inside menu when open (basic)
+  items.addEventListener('keydown', (e) => {
+    if(e.key !== 'Tab') return;
+    const focusable = Array.from(items.querySelectorAll('a'));
+    if(focusable.length === 0) return;
+    const first = focusable[0], last = focusable[focusable.length-1];
+    if(e.shiftKey && document.activeElement === first){ last.focus(); e.preventDefault(); }
+    else if(!e.shiftKey && document.activeElement === last){ first.focus(); e.preventDefault(); }
+  });
+
+  // get the image element
+const menuImg = document.getElementById("menuLeftImg");
+
+// map each menu item to a local image file
+const menuImages = [
+  "/assets/images/home/homebg.jpg",      // Home
+  "/assets/images/team-logo.png",       // About
+  "/assets/images/menu/projects.jpg",    // Projects
+  "/assets/images/menu/team.jpg",        // Team
+  "/assets/images/menu/sponsors.jpg",    // Sponsors
+  "/assets/images/menu/events.jpg",      // Events
+  "/assets/images/menu/contact.jpg"      // Contact
+];
+
+const links = items.querySelectorAll("a");
+
+links.forEach((link, i) => {
+  link.addEventListener("mouseenter", () => {
+    menuImg.src = menuImages[i];
+    menuImg.parentElement.style.opacity = 1; // make sure image fades in
+  });
+  link.addEventListener("mouseleave", () => {
+    menuImg.src = ""; // or keep last image
+    menuImg.parentElement.style.opacity = 0; // fade out when not hovering
+  });
+});
+
+const menuText = document.querySelector(".menu-left-text");
+
+function openMenu(){
+  toggle.classList.add('active');
+  overlay.classList.add('active');
+  items.classList.add('active');
+  menuText.style.opacity = 1; // show text
+  toggle.setAttribute('aria-expanded','true');
+  overlay.setAttribute('aria-hidden','false');
+  items.setAttribute('aria-hidden','false');
+}
+
+function closeMenu(){
+  toggle.classList.remove('active');
+  overlay.classList.remove('active');
+  items.classList.remove('active');
+  menuText.style.opacity = 0; // hide text
+  toggle.setAttribute('aria-expanded','false');
+  overlay.setAttribute('aria-hidden','true');
+  items.setAttribute('aria-hidden','true');
+}
+
+
+
+</script>
+
+</body>
+</html>

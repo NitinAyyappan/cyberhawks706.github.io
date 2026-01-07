@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Robots - Cyberhawks FRC 706</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/robots.css">
+  <link rel="stylesheet" href="/css/topoBackground.css">
+  <link rel="icon" href="/assets/images/favicon.webp" type="image/webp">
+  <script src="/scripts/include.js" defer></script>
+</head>
+<body>
+  <!-- Topographic background -->
+  <canvas id="res-canvas"></canvas>
+  <div class="bg-overlay"></div>
+
+  <div data-include="/partials/header.html"></div>
+
+  <main class="site-content">
+    <h1 class="notion-page-title">Robots</h1>
+
+    <div class="scene" aria-hidden="false">
+      <div class="carousel-wrap">
+        <!-- year nav (buttons populated by JS) -->
+         <div class="year-nav-wrapper">
+  <button class="year-arrow left" aria-label="Previous years"></button>
+
+  <div class="year-nav" id="yearNav"></div>
+
+
+  <button class="year-arrow right" aria-label="Next years"></button>
+</div>
+        <!-- controls -->
+        <div class="controls" aria-hidden="false">
+          <button class="arrow-btn" id="prevBtn" aria-label="Previous robot">◀ Prev</button>
+          <button class="arrow-btn" id="nextBtn" aria-label="Next robot">Next ▶</button>
+        </div>
+
+        <!-- 3D carousel (panels created by JS) -->
+        <div class="carousel" id="carousel" role="region" aria-label="Robot carousel"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Video modal (simple) -->
+  <div class="video-modal" id="videoModal">
+    <div class="video-modal-overlay"></div>
+    <div class="video-modal-content">
+      <div class="video-modal-header">
+        <h3 class="video-modal-title" id="modalTitle">Robot Reveal Video</h3>
+        <button class="video-modal-close" id="closeModal" aria-label="Close video">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="video-modal-body">
+        <div class="video-container">
+          <iframe id="modalVideo" src="" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initTopoBackground } from "/scripts/topoBackground.js";
+    window.addEventListener("DOMContentLoaded", () => initTopoBackground());
+  </script>
+
+  <script>
+    (function () {
+      /* =========
+         Robot dataset: update / extend here
+         ========= */
+      const robots = [
+        // {
+        //   year: 2026,
+        //   id: "robot-2026",
+        //   title: "Noir",
+        //   seasonLabel: "REBUILT",
+        //   img: "/assets/images/robots/robot-rebuilt.JPG",
+        //   imgAlt: "Noir (2026)",
+        //   events: [
+        //     {
+        //       title: "Competition 1",
+        //       sub: "Week _",
+        //       rows: [
+        //         ["Qualifications", "_-_ record - Rank _"],
+        //         ["Playoffs", "-"],
+        //         ["Awards", "-"]
+        //       ]
+        //     },
+        //     {
+        //       title: "Competition 2",
+        //       sub: "Week _",
+        //       rows: [
+        //         ["Qualifications", "_-_ record - Rank __"],
+        //         ["Playoffs", "-"],
+        //         ["Awards", "-"]
+        //       ]
+        //     }
+        //   ],
+        //   about: [
+        //     "Something insightful."
+        //   ],
+        //   captains: ["Nitin Ayyappan", "Adia-Mae Feiker", "Grant Revelle"]
+        // },
+        {
+          year: 2025,
+          id: "robot-2025",
+          title: "Thor",
+          seasonLabel: "REEFSCAPE",
+          img: "/assets/images/robots/robot-reefscape.JPG",
+          imgAlt: "Thor (2022)",
+          videoId: "D0x3lRjx96o",
+          events: [
+            {
+              title: "Seven Rivers Regional",
+              sub: "Week 4",
+              rows: [
+                ["Qualifications", "5-4 record - Rank 21"],
+                ["Playoffs", "-"],
+                ["Awards", "Engineering Inspiration"]
+              ]
+            },
+            {
+              title: "Wisconsin Regional",
+              sub: "Week 6",
+              rows: [
+                ["Qualifications", "7-5 record - Rank 18"],
+                ["Playoffs", "Pick 2 of Alliance 2 - 4-3"],
+                ["Awards", "Sustainability Award"]
+              ]
+            },
+            {
+              title: "Galileo Division - FIRST Houston World Championship",
+              sub: "",
+              rows: [
+                ["Qualifications", "4-6 record - Rank 55"],
+                ["Playoffs", "-"],
+                ["Awards", "-"]
+              ]
+            }
+          ],
+          about: [
+            "Thor is our 2025 robot, designed for the REEFSCAPE game.",
+            "Equipped with advanced sensors and actuators for precise operation."
+          ],
+          captains: ["Ava Anderson", "Nidhi George", "Grant Revelle"]
+        },
+
+        // 2024: special-case example with variants
+        {
+          year: 2024,
+          id: "robot-2024",
+          // "variants" indicates the panel should include the toggle UI
+          variants: {
+            main: {
+              title: "Off-Key",
+              seasonLabel: "CRESCENDO",
+              img: "/assets/images/robots/robot-crecendo.jpg",
+              imgAlt: "Cyberhawks 2024 Robot - Off-Key",
+              events: [
+                {
+                  title: "Wisconsin Regional",
+                  sub: "Week 3",
+                  rows: [
+                    ["Qualifications", "5-5 record - Rank 36"],
+                    ["Playoffs", "-"],
+                    ["Awards", "FIRST Dean's List Finalist (Nidhi G)"]
+                  ]
+                },
+                {
+                  title: "Seven Rivers Regional",
+                  sub: "Week 6",
+                  rows: [
+                    ["Qualifications", "5-5 record - Rank 33"],
+                    ["Playoffs", "-"],
+                    ["Awards", "-"]
+                  ]
+                },
+                {
+                  title: "Mukwonago Robotics Offseason Competition",
+                  sub: "",
+                  rows: [
+                    ["Qualifications", "4-8 record - Rank 20"],
+                    ["Playoffs", "Alliance 5 (2nd pick) - eliminated R2"],
+                    ["Awards", "-"]
+                  ]
+                }
+              ],
+              about: [
+                'This robot could collect "notes" (game pieces) and launch them upward into the "speaker" (goal for the game pieces).It used rotating belts to pull the game pieces inward for collection.'
+              ],
+              captains: ["Nidhi George", "Shira Gui"]
+            },
+            alt: {
+              title: "Dilbert",
+              seasonLabel: "CRESCENDO",
+              img: "/assets/images/robots/robot-dilbert.JPG",
+              imgAlt: "Dilbert - 2024 alternate",
+              events: [
+                {
+                  title: "Wisconsin Regional",
+                  sub: "Week 3",
+                  rows: [
+                    ["Qualifications", "10-5-0 - Rank 6"],
+                    ["Playoffs", "Captain of Alliance 6 - eliminated R5"],
+                    ["Awards", "Rookie All Star, Wildcard"]
+                  ]
+                },
+                {
+                  title: "Minnesota Granite City Regional",
+                  sub: "Week 6",
+                  rows: [
+                    ["Qualifications", "8-5-0 - Rank 6"],
+                    ["Playoffs", "Captain of Alliance 5 - eliminated R3"],
+                    ["Awards", "Dean's List & Rookie Inspiration"]
+                  ]
+                },
+                {
+                  title: "Milstein Division - FIRST Championship",
+                  sub: "",
+                  rows: [
+                    ["Qualifications", "7-5-0 - Rank 8"],
+                    ["Playoffs", "Captain of Alliance 8 - eliminated R2"],
+                    ["Awards", "Rookie Inspiration"]
+                  ]
+                }
+              ],
+              about: ["Secondary 2024 robot configuration for CRESCENDO.", "Used for experimental programming and alliance flexibility."],
+              captains: ["Ben Otte", "Peter Otte"]
+            }
+          }
+        },
+
+        {
+          year: 2023,
+          id: "robot-2023",
+          title: "Espresso",
+          seasonLabel: "CHARGED UP",
+          img: "/assets/images/robots/robot-chargedup.png",
+          imgAlt: "Cyberhawks 2023 Robot",
+          events: [
+            {
+              title: "St. Louis Regional",
+              sub: "Week 2",
+              rows: [
+                ["Qualifications", "8-5-0 record - Rank 5"],
+                ["Playoffs", "Alliance 4 Captain - eliminated R2"],
+                ["Awards", "-"]
+              ]
+            },
+            {
+              title: "Wisconsin Regional",
+              sub: "Week 4",
+              rows: [
+                ["Qualifications", "8-6-0 record - Rank 8"],
+                ["Playoffs", "Alliance 7 Captain - eliminated R2"],
+                ["Awards", "-"]
+              ]
+            }
+          ],
+          about: [
+                'This robot was cool.'
+              ],
+          captains: ["Tim Groth", "Arnav Gupta", "Daniel Payne"]
+        },
+
+        {
+          year: 2022,
+          id: "robot-2022",
+          title: "Reactive",
+          seasonLabel: "RAPID REACT",
+          img: "/assets/images/robots/robot-rapidreact.JPG",
+          imgAlt: "Cyberhawks (2022)",
+          events: [
+            {
+              title: "Central Illinois Regional",
+              sub: "",
+              rows: [
+                ["Qualifications", "8-7 record - Rank 15"],
+                ["Playoffs", "1st Pick of Alliance 7 - Quarterfinals"],
+                ["Awards", "-"]
+              ]
+            },
+            {
+              title: "Wisconsin Regional",
+              sub: "",
+              rows: [
+                ["Qualifications", "9-8 record - Rank 9"],
+                ["Playoffs", "Captain of Alliance 7 - Semifinals"],
+                ["Awards", "Innovation in Control Award"]
+              ]
+            }
+          ],
+          about: ["Cyberhawks competed in the 2022 RAPID REACT season.", "17-15-0 official match record across regionals."],
+          captains: ["-"]
+        },
+
+        {
+          year: 2021,
+          id: "robot-2021",
+          title: "Cyberhawks",
+          seasonLabel: "VIRTUAL SEASON",
+          img: "/assets/images/robots/robot-undef.JPG",
+          imgAlt: "Cyberhawks (2021)",
+          events: [
+            {
+              rawHtml: `<p style="padding: 16px;">No official competition matches were played during the 2021 virtual FIRST season.</p>`
+            }
+          ],
+          about: ["COVID-19 impacted events led FIRST to cancel in-person competitions."],
+          captains: ["-"]
+        },
+
+        {
+          year: 2020,
+          id: "robot-2020",
+          title: "Cassy",
+          seasonLabel: "INFINITE RECHARGE",
+          img: "/assets/images/robots/robot-infinitedelight.JPG",
+          imgAlt: "Cyberhawks (2020)",
+          events: [
+            {
+              title: "Miami Valley Regional",
+              sub: "",
+              rows: [
+                ["Qualifications", "4-5 record - Rank 35"],
+                ["Playoffs", "-"],
+                ["Awards", "-"]
+              ]
+            },
+            {
+              title: "Wisconsin Regional",
+              sub: "",
+              rows: [
+                ["Qualifications", "Cancelled (No Matches)"],
+                ["Playoffs", "-"],
+                ["Awards", "-"]
+              ]
+            }
+          ],
+          about: ["2020 In-person competitions were cut short by the pandemic."],
+          captains: ["-"]
+        },
+
+        {
+          year: 2019,
+          id: "robot-2019",
+          title: "Cyberhawks",
+          seasonLabel: "INFINITE RECHARGE",
+          img: "/assets/images/robots/robot-infinitedelight.JPG",
+          imgAlt: "Cyberhawks (2020)",
+          events: [
+            {
+              title: "Miami Valley Regional",
+              sub: "",
+              rows: [
+                ["Qualifications", "4-5 record - Rank 35"],
+                ["Playoffs", "-"],
+                ["Awards", "-"]
+              ]
+            },
+            {
+              title: "Wisconsin Regional",
+              sub: "",
+              rows: [
+                ["Qualifications", "Cancelled (No Matches)"],
+                ["Playoffs", "-"],
+                ["Awards", "-"]
+              ]
+            }
+          ],
+          about: ["2020 In-person competitions were cut short by the pandemic."],
+          captains: ["-"]
+        }
+      ];
+
+      /* =========
+         DOM builders
+         ========= */
+
+      function mk(tag, attrs = {}, children = []) {
+        const el = document.createElement(tag);
+        for (const [k, v] of Object.entries(attrs)) {
+          if (k === "class") el.className = v;
+          else if (k === "html") el.innerHTML = v;
+          else if (k.startsWith("data-")) el.setAttribute(k, v);
+          else if (k === "aria") {
+            for (const [ak, av] of Object.entries(v)) el.setAttribute(ak, av);
+          } else el.setAttribute(k, v);
+        }
+        if (!Array.isArray(children)) children = [children];
+        children.forEach(c => {
+          if (c == null) return;
+          if (typeof c === "string") el.appendChild(document.createTextNode(c));
+          else el.appendChild(c);
+        });
+        return el;
+      }
+
+      function buildEventBlock(ev) {
+        const block = mk("div", { class: "event-block" });
+        if (ev.rawHtml) {
+          block.innerHTML = ev.rawHtml;
+          return block;
+        }
+        const h3 = mk("h3", {}, [ev.title, ev.sub ? mk("span", {}, [` ${ev.sub}`]) : null]);
+        block.appendChild(h3);
+        const table = mk("table", { class: "event-table" });
+        const tbody = mk("tbody");
+        if (ev.rows && Array.isArray(ev.rows)) {
+          ev.rows.forEach(([th, td]) => {
+            const tr = mk("tr");
+            tr.appendChild(mk("th", {}, [th]));
+            tr.appendChild(mk("td", {}, [td]));
+            tbody.appendChild(tr);
+          });
+        }
+        table.appendChild(tbody);
+        block.appendChild(table);
+        return block;
+      }
+
+      function buildAboutList(lines) {
+        const ul = mk("ul", { class: "robot-meta" });
+        lines.forEach(l => ul.appendChild(mk("li", {}, [l])));
+        return ul;
+      }
+
+      function buildCaptainsList(list) {
+        const ul = mk("ul", { class: "robot-meta" });
+        list.forEach(l => ul.appendChild(mk("li", {}, [l])));
+        return ul;
+      }
+
+      function buildPanel(robotObj) {
+        const sec = mk("section", {
+          class: "carousel__cell robot-card",
+          id: robotObj.id || `robot-${robotObj.year}`,
+          "data-year": robotObj.year,
+          "aria-label": `Robot ${robotObj.year}`
+        });
+
+        // If this robot has variants (special case for 2024), render toggle + both variants
+        if (robotObj.variants) {
+          const toggleId = `robot${robotObj.year}Switch`;
+          const toggleContainer = mk("div", { class: "robot-toggle-container active", id: `robot${robotObj.year}Toggle` });
+          toggleContainer.appendChild(mk("span", { class: "toggle-label-main" }, ["Cyberhawks"]));
+          const label = mk("label", { class: "toggle-switch" });
+          const input = mk("input", { type: "checkbox", id: toggleId, class: "toggle-input" });
+          label.appendChild(input);
+          label.appendChild(mk("span", { class: "toggle-slider" }));
+          toggleContainer.appendChild(label);
+          toggleContainer.appendChild(mk("span", { class: "toggle-label-alt" }, ["The Knack"]));
+          sec.appendChild(toggleContainer);
+
+          // build main and alt variant containers
+          const main = buildVariantBlock(robotObj.year, "main", robotObj.variants.main);
+          main.classList.add("robot-variant", "main-robot", "is-visible");
+          main.setAttribute("data-robot", "main");
+          main.setAttribute("role", "region");
+          main.setAttribute("aria-label", `Main ${robotObj.year} robot`);
+
+          const alt = buildVariantBlock(robotObj.year, "alt", robotObj.variants.alt);
+          alt.classList.add("robot-variant", "alt-robot");
+          alt.setAttribute("data-robot", "alt");
+          alt.setAttribute("role", "region");
+          alt.setAttribute("aria-label", `Alternate ${robotObj.year} robot`);
+          alt.setAttribute("aria-hidden", "true");
+
+          sec.appendChild(main);
+          sec.appendChild(alt);
+        } else {
+          // Normal robot
+          sec.appendChild(buildRobotHeader(robotObj));
+          // events
+          const grid = mk("div", { class: "event-grid" });
+          if (robotObj.events) robotObj.events.forEach(ev => grid.appendChild(buildEventBlock(ev)));
+          sec.appendChild(grid);
+          if (robotObj.about) {
+            const about = mk("div", { class: "about-section" });
+            about.appendChild(mk("h4", {}, ["About"]));
+            about.appendChild(buildAboutList(robotObj.about));
+            sec.appendChild(about);
+          }
+          if (robotObj.captains) {
+            const capt = mk("div", { class: "captains-section" });
+            capt.appendChild(mk("h4", {}, ["Captains"]));
+            capt.appendChild(buildCaptainsList(robotObj.captains));
+            sec.appendChild(capt);
+          }
+        }
+
+        return sec;
+      }
+
+      function buildVariantBlock(year, key, v) {
+        const container = mk("div", { class: "robot-variant" });
+        const header = mk("header", { class: "robot-header" });
+        const figure = mk("figure", { class: "robot-media" });
+        figure.appendChild(mk("img", { class: "robot-photo", src: v.img, alt: v.imgAlt || `${v.title} (${year})` }));
+        header.appendChild(figure);
+
+        const overview = mk("div", { class: "robot-overview" });
+        overview.appendChild(mk("div", { class: "robot-season-label" }, [v.seasonLabel || ""]));
+        overview.appendChild(mk("h2", { class: "robot-title" }, [v.title || ""]));
+        const ys = mk("div", { class: "year-selector" });
+        ys.appendChild(mk("span", { class: "robot-season" }, [String(year)]));
+        if (v.videoId) {
+          const a = mk("a", { class: "robot-reveal-link notion-pill video-modal-trigger", href: "#", "data-video-id": v.videoId, "data-robot-name": v.title, "data-robot-year": year }, ["Watch Reveal Video"]);
+          ys.appendChild(a);
+        }
+        overview.appendChild(ys);
+        header.appendChild(overview);
+        container.appendChild(header);
+
+        const grid = mk("div", { class: "event-grid" });
+        if (v.events) v.events.forEach(ev => grid.appendChild(buildEventBlock(ev)));
+        container.appendChild(grid);
+
+        if (v.about) {
+          const about = mk("div", { class: "about-section" });
+          about.appendChild(mk("h4", {}, ["About"]));
+          about.appendChild(buildAboutList(v.about));
+          container.appendChild(about);
+        }
+        if (v.captains) {
+          const capt = mk("div", { class: "captains-section" });
+          capt.appendChild(mk("h4", {}, ["Captains"]));
+          capt.appendChild(buildCaptainsList(v.captains));
+          container.appendChild(capt);
+        }
+
+        return container;
+      }
+
+      function buildRobotHeader(robotObj) {
+        const header = mk("header", { class: "robot-header" });
+        const figure = mk("figure", { class: "robot-media" });
+        figure.appendChild(mk("img", { class: "robot-photo", src: robotObj.img, alt: robotObj.imgAlt || robotObj.title || `Robot ${robotObj.year}` }));
+        header.appendChild(figure);
+
+        const overview = mk("div", { class: "robot-overview" });
+        overview.appendChild(mk("div", { class: "robot-season-label" }, [robotObj.seasonLabel || ""]));
+        overview.appendChild(mk("h2", { class: "robot-title" }, [robotObj.title || ""]));
+        const ys = mk("div", { class: "year-selector" });
+        ys.appendChild(mk("span", { class: "robot-season" }, [String(robotObj.year)]));
+        if (robotObj.videoId) {
+          ys.appendChild(mk("a", { class: "robot-reveal-link notion-pill video-modal-trigger", href: "#", "data-video-id": robotObj.videoId, "data-robot-name": robotObj.title, "data-robot-year": robotObj.year }, ["Watch Reveal Video"]));
+        }
+        overview.appendChild(ys);
+        header.appendChild(overview);
+        return header;
+      }
+
+      /* =========
+         Render panels + nav
+         ========= */
+      const carouselEl = document.getElementById("carousel");
+      const yearNav = document.getElementById("yearNav");
+
+      robots.forEach((r, i) => {
+        carouselEl.appendChild(buildPanel(r));
+      });
+
+      // Build year nav buttons in same order as panels
+      Array.from(carouselEl.querySelectorAll(".carousel__cell")).forEach((cell, i) => {
+        const y = cell.dataset.year || cell.id || String(i + 1);
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "year-btn";
+        btn.textContent = y;
+        btn.dataset.index = i;
+        yearNav.appendChild(btn);
+      });
+
+      /* =========
+         Carousel behavior (adapted from your original script)
+         ========= */
+      const carousel = document.getElementById('carousel');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      let cells = Array.from(carousel.querySelectorAll('.carousel__cell'));
+      let yearButtons = Array.from(yearNav.querySelectorAll('button'));
+      let selectedIndex = 0;
+      let cellCount = cells.length;
+      let theta = 360 / Math.max(cellCount, 1);
+      let radius = 0;
+
+      function positionCells() {
+        cells = Array.from(carousel.querySelectorAll('.carousel__cell')); // refresh
+        cellCount = cells.length;
+        theta = 360 / Math.max(cellCount, 1);
+        if (cellCount === 0) return;
+
+        // base cell width on first cell, fallback
+        const rect = cells[0].getBoundingClientRect();
+        const cellWidth = rect.width || Math.min(window.innerWidth - 40, 920);
+        radius = Math.round((cellWidth / 2) / Math.tan(Math.PI / cellCount));
+
+        cells.forEach((cell, i) => {
+          const angle = theta * i;
+          cell.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+        });
+
+        updateSceneHeight();
+      }
+
+      function rotateCarousel() {
+        const angle = theta * selectedIndex * -1;
+        carousel.style.transform = `translateZ(-${radius}px) rotateY(${angle}deg)`;
+        updateActive();
+        centerActiveYear();
+      }
+
+      function updateActive() {
+        cells.forEach((c, i) => c.classList.toggle('is-active', i === selectedIndex));
+        yearButtons = Array.from(yearNav.querySelectorAll('button'));
+        yearButtons.forEach((b, i) => b.classList.toggle('active', i === selectedIndex));
+
+        // Manage any toggle containers for the active cell
+        cells.forEach((c, i) => {
+          const toggleContainer = c.querySelector('.robot-toggle-container');
+          if (!toggleContainer) return;
+          const switchInput = toggleContainer.querySelector('.toggle-input');
+          if (i === selectedIndex) {
+            toggleContainer.classList.add('active');
+            // keep switch state as-is when active (do not force)
+            updateVariantDisplayForPanel(c, switchInput && switchInput.checked);
+          } else {
+            // if panel isn't active, reset to main view and mark inactive
+            toggleContainer.classList.remove('active');
+            if (switchInput) {
+              switchInput.checked = false;
+              updateVariantDisplayForPanel(c, false);
+            }
+          }
+        });
+
+        updateSceneHeight();
+      }
+
+      function updateSceneHeight() {
+        const scene = document.querySelector('.scene');
+        if (!scene) return;
+        const activeCell = cells[selectedIndex];
+        if (!activeCell) return;
+        const cellHeight = activeCell.getBoundingClientRect().height;
+        scene.style.height = (cellHeight + 48) + 'px';
+      }
+
+      function updateVariantDisplayForPanel(panelEl, showAlt) {
+        const mainRobot = panelEl.querySelector(".robot-variant.main-robot");
+        const altRobot = panelEl.querySelector(".robot-variant.alt-robot");
+        if (!mainRobot || !altRobot) return;
+        if (showAlt) {
+          mainRobot.classList.add('is-hidden');
+          altRobot.classList.add('is-visible');
+          altRobot.setAttribute('aria-hidden', 'false');
+        } else {
+          mainRobot.classList.remove('is-hidden');
+          altRobot.classList.remove('is-visible');
+          altRobot.setAttribute('aria-hidden', 'true');
+        }
+        // Recalculate layout after variant swap
+        requestAnimationFrame(() => {
+          positionCells();
+          rotateCarousel();
+        });
+      }
+
+      // previous / next
+      prevBtn.addEventListener('click', () => {
+        selectedIndex = (selectedIndex - 1 + cellCount) % cellCount;
+        rotateCarousel();
+      });
+      nextBtn.addEventListener('click', () => {
+        selectedIndex = (selectedIndex + 1) % cellCount;
+        rotateCarousel();
+      });
+
+      // year nav click
+      yearButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.index);
+          if (!Number.isNaN(idx)) {
+            selectedIndex = idx;
+            rotateCarousel();
+          }
+        });
+      });
+
+      // keyboard
+      window.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft') prevBtn.click();
+        if (e.key === 'ArrowRight') nextBtn.click();
+      });
+
+      // Variant toggle listeners (for panels that have them)
+      function wireVariantToggles() {
+        const toggles = carousel.querySelectorAll('.robot-toggle-container');
+        toggles.forEach(tc => {
+          const input = tc.querySelector('.toggle-input');
+          const panel = tc.closest('.carousel__cell');
+          if (!input || !panel) return;
+          input.addEventListener('change', () => {
+            updateVariantDisplayForPanel(panel, input.checked);
+          });
+        });
+      }
+
+      // Resize handling (debounced)
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          positionCells();
+          rotateCarousel();
+        }, 120);
+      });
+
+      // Initial setup
+      positionCells();
+      rotateCarousel();
+      wireVariantToggles();
+
+      // Make debug accessor available
+      window._robotCarousel = {
+        rotate: rotateCarousel,
+        position: positionCells,
+        select: i => { selectedIndex = i; rotateCarousel(); }
+      };
+
+      // -------------------------
+      // Video modal
+      // -------------------------
+      const modal = document.getElementById('videoModal');
+      const modalVideo = document.getElementById('modalVideo');
+      const modalTitle = document.getElementById('modalTitle');
+      const closeButton = document.getElementById('closeModal');
+      const overlay = document.querySelector('.video-modal-overlay');
+
+      function openModal(videoId, robotName, robotYear) {
+        const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+        modalVideo.src = embedUrl;
+        modalTitle.textContent = `${robotYear} ${robotName} - Reveal Video`;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        console.log('Opening modal with video:', videoId);
+
+      }
+      function closeModal() {
+        modal.classList.remove('active');
+        modalVideo.src = '';
+        modalTitle.textContent = 'Robot Reveal Video';
+        document.body.style.overflow = '';
+      }
+
+      // delegate clicks for video triggers (works for dynamically created triggers)
+      document.addEventListener('click', function (e) {
+        const t = e.target.closest('.video-modal-trigger');
+        if (!t) return;
+        e.preventDefault();
+        const videoId = t.getAttribute('data-video-id');
+        const robotName = t.getAttribute('data-robot-name') || '';
+        const robotYear = t.getAttribute('data-robot-year') || '';
+        if (videoId) openModal(videoId, robotName, robotYear);
+      });
+
+      // Close modal events
+      closeButton.addEventListener('click', closeModal);
+      overlay.addEventListener('click', closeModal);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+
+      // small helper: ensure toggles are wired again after DOM changes (if you programmatically add robots later)
+      window._robotCarousel.wireToggles = wireVariantToggles;
+      window._robotCarousel.rebuild = function () {
+        // if you change robots array and want to rebuild DOM, add logic here.
+        // For now we expose the function so you can implement dynamic rebuild later.
+      };
+
+      
+    // Year arrow scroll buttons
+const yearArrowLeft = document.querySelector(".year-arrow.left");
+const yearArrowRight = document.querySelector(".year-arrow.right");
+
+yearArrowLeft.addEventListener('click', () => {
+  selectedIndex = (selectedIndex - 1 + cellCount) % cellCount;
+  rotateCarousel();
+});
+
+yearArrowRight.addEventListener('click', () => {
+  selectedIndex = (selectedIndex + 1) % cellCount;
+  rotateCarousel();
+});
+yearButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const idx = Number(btn.dataset.index);
+    if (!Number.isNaN(idx)) {
+      selectedIndex = idx;
+      rotateCarousel(); // centers year button automatically
+    }
+  });
+});
+
+function centerActiveYear() {
+  const yearNav = document.getElementById("yearNav");
+  const activeBtn = yearNav.querySelector(".year-btn.active");
+  if (!activeBtn) return;
+
+  const navRect = yearNav.getBoundingClientRect();
+  const btnRect = activeBtn.getBoundingClientRect();
+
+  const btnCenter = btnRect.left + btnRect.width / 2;
+  const navCenter = navRect.left + navRect.width / 2;
+
+  const offset = btnCenter - navCenter;
+
+  if (Math.abs(offset) < 2) return; // already centered
+  yearNav.scrollBy({ left: offset, behavior: "smooth" });
+}
+
+console.log('modal exists?', !!modal, 'classList:', modal && modal.className);
+console.log('overlay exists?', !!document.querySelector('.video-modal-overlay'));
+console.log('content exists?', !!document.querySelector('.video-modal-content'));
+    })();
+
+
+
+
+  </script>
+
+  <div data-include="/partials/footer.html"></div>
+
+</body>
+</html>
+
+<!-- 2012 Outreach Captain- Joe Michalski
+
+ 2013 robot name - accipter
+ Accipter, was named after a class of hawk, highlighting the “claws” we used for both 10- and 20-point hangs. To hang, we drove under the pyramid, raised the lower claws with pistons while lifting the hood, drove into the lower bar, and retracted the pistons to reach the 10-point hang; the winch then engaged the upper claws for the 20-point lift, pulling the robot above the line. For Frisbee management, we picked up from both the feeder and the floor: the hood and shorter piston positioned the robot for feeder loading, while floor pick up used excluder/funnel arms, a dustpan, a conveyor, a microswitch, and springy guides to lift disks into the hopper. Upside-down Frisbees were automatically flipped with simple wire hooks on the conveyor, requiring no sensors or code. The shooter combined a rear kicker and mid-mounted wheel powered by a mini-CIM, lifted by a lead-screw-driven lifter with an RS-550 motor and home switch, while targeting used an AXIS camera with rectangle recognition. The drive train was a full kitbot frame with four CIMs through Toughbox Minis, achieving ~10 FPS.
+
+Plaque - blue robot, image created may 7th 2015 -->

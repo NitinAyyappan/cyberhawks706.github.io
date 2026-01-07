@@ -3,36 +3,217 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cyberhawks FRC 706</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Cyberhawks 706</title>
+  <meta name="description" content="Cyberhawks - FIRST Robotics Competition Team 706">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://nitinayyappan.github.io/cyberhawks706.github.io/">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/home.css">
+
   <link rel="icon" href="assets/images/favicon.webp" type="image/webp">
+  <link rel="preload" href="assets/images/team-photo.png" as="image">
+  <link rel="preload" href="assets/images/team-logo.png" as="image">
+  <script src="scripts/include.js" defer></script>
 </head>
 <body class="home">
+  <!-- Header include -->
+  <div data-include="/partials/header.html"></div>
 
-  <!-- Header -->
-  <div data-include="partials/header.html"></div>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <img src="assets/images/team-photo.png" alt="Team Photo" class="background">
+  <!-- Hero section with background photo and centered logo -->
+  <div class="hero">
+    <img src="assets/images/team-photo.jpg" alt="Cyberhawks Team Photo" class="background">
     <div class="logo-container">
-      <img src="assets/images/team-logo.png" alt="Team Logo">
-      <h1>Cyberhawks</h1>
-      <p>FIRST Robotics Competition Team 706</p>
+      <img src="assets/images/team-logo.png" alt="Cyberhawks Team Logo">
     </div>
-  </section>
+  </div>
 
-  <!-- About Section -->
-  <section class="about">
-    <h2>Who We Are</h2>
-    <p>We are an FRC team dedicated to engineering, teamwork, and outreach. We design, build, and program competitive robots while fostering STEM in our community.</p>
-  </section>
+  <section class="home-intro">
+  <div class="intro-inner">
 
-  <!-- Footer -->
-  <div data-include="partials/footer.html"></div>
+    <h2 class="intro-title">What We Do</h2>
+    <p class="intro-subtitle">
+      We are Arrowhead High School's Robotics Team 706 from Hartland, Wisconsin.  We compete under the FIRST organization at the FRC (grades 9-12) level.  Every year, FIRST provides us with a new game challenge.  We then brainstorm, prototype, design, construct and program to build a robot to compete at regional competitions around the Midwest. 
 
-  <!-- JS to load header/footer -->
-  <script src="scripts/include.js" defer></script>
+
+    </p>
+
+    <div class="intro-grid">
+
+      <div class="intro-card">
+        <h3>Build</h3>
+        <p>
+          We brainstorm, prototype, and use computer aided design to create the robot itself.
+        </p>
+      </div>
+
+      <div class="intro-card">
+        <h3>Programming</h3>
+        <p>
+          We write code for the robot using JAVA and complete the robot's wiring.
+        </p>
+      </div>
+
+      <div class="intro-card">
+        <h3>Business</h3>
+        <p>
+          We create social media content and promotional materials, communicate with sponsors, and track income and expenses.
+        </p>
+      </div>
+
+      <div class="intro-card">
+        <h3>Outreach</h3>
+        <p>
+          We promote STEM through demonstrations, mentorship,
+          and partnerships with schools and community organizations.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="feature-strip">
+  <div class="feature-inner">
+    <div class="feature-text">
+      <h2>What is FIRST Robotics Competition?</h2>
+      <p>
+        Each year, teams of high school students, coaches, and mentors
+        work during a six-week period to build a robot capable of taking part in an
+        international robotics competition. Teams can win various awards and scholarships,
+        as well as spread STEM ideas across high schools everywhere.
+      </p>
+      <a href="https://www.firstinspires.org/programs/frc/" class="feature-button" target="_blank" rel="noopener noreferrer">Learn More</a>
+    </div>
+
+    <div class="feature-image">
+      <img src="assets/images/home/what-is-first.JPG" alt="Cyberhawks in action">
+    </div>
+  </div>
+</section>
+<div data-include="/partials/slider.html"></div>
+
+
+<section class="social-arc">
+  <div class="social-bg"></div>
+
+  <h2 class="social-title">Follow the Cyberhawks</h2>
+
+  <div class="arc-container">
+  <div class="arc-card" data-index="0" aria-label="img0">
+    <img src="/assets/images/home/homepage0.JPG" alt="Social 0">
+  </div>
+
+  <div class="arc-card" data-index="1" aria-label="img1">
+    <img src="/assets/images/home/homepage1.JPG" alt="Social 1">
+  </div>
+
+  <div class="arc-card is-center" data-index="2" aria-label="img2">
+    <img src="/assets/images/home/homepage2.JPG" alt="Social 2">
+  </div>
+
+  <div class="arc-card" data-index="3" aria-label="img3">
+    <img src="/assets/images/home/homepage4.JPG" alt="Social 3">
+  </div>
+
+  <div class="arc-card" data-index="4" aria-label="img4">
+    <img src="/assets/images/home/homepage5.JPG" alt="Social 4">
+  </div>
+</div>
+
+
+  <p class="social-subtext">
+    Match highlights, behind-the-scenes builds, code, awards, and outreach.
+  </p>
+
+<div class="social-links">
+  <a href="https://www.youtube.com/@Cyberhawks706/" aria-label="YouTube">
+    <img src="/assets/icons/youtube.svg" alt="">
+  </a>
+  <a href="https://instagram.com/cyberhawks706" aria-label="Instagram">
+    <img src="/assets/icons/instagram.svg" alt="">
+  </a>
+  <a href="https://github.com" aria-label="GitHub">
+    <img src="/assets/icons/github.svg" alt="">
+  </a>
+  <a href="https://www.thebluealliance.com/team/706" aria-label="Blue Alliance">
+    <img src="/assets/icons/bluealliance.svg" alt="">
+  </a>
+  <a href="https://www.facebook.com/firstteam706" aria-label="Facebook">
+    <img src="/assets/icons/facebook.svg" alt="">
+  </a>
+</div>
+
+
+</section>
+
+<div data-include="/partials/footer.html"></div>
+
+
+
+
+
+
+  <script>
+    // Wait for images to load before marking animations-ready (if needed)
+    const socialArc = document.querySelector('.social-arc');
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      socialArc.classList.add('is-visible');
+      io.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+
+io.observe(socialArc);
+
+    const initializeHomePage = () => {
+      if (!document.body.classList.contains('home')) return;
+
+      const images = Array.from(document.querySelectorAll('.hero img, footer img'));
+      const whenImageReady = (img) => {
+        if (img.complete && img.naturalWidth !== 0) return Promise.resolve();
+        return new Promise((resolve) => {
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', resolve, { once: true });
+        });
+      };
+
+      Promise.all(images.map(whenImageReady)).then(() => {
+        requestAnimationFrame(() => document.body.classList.add('animations-ready'));
+      });
+    };
+
+    if (window.__includesLoaded) {
+      initializeHomePage();
+    } else {
+      document.addEventListener('includesLoaded', initializeHomePage, { once: true });
+    }
+  </script>
+
+
+  <script>
+    const revealIntroCards = () => {
+      const cards = document.querySelectorAll('.intro-card');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.25 });
+
+      cards.forEach(card => observer.observe(card));
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', revealIntroCards);
+    } else {
+      revealIntroCards();
+    }
+  </script>
 
 </body>
 </html>
